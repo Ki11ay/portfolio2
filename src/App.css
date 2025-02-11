@@ -1,0 +1,131 @@
+:root {
+  --backgroundColor: #0b080c;
+  --textColor: #ffffff;
+  --accentColor: #2196f3;
+  --maxWidth: 1200px;
+  --headerHeight: 70px;
+  --sectionSpacing: 100px;
+}
+
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
+  overflow-x: hidden;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.content-container {
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.content-container.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Loading States */
+.fallback-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--backgroundColor);
+  z-index: 1000;
+}
+
+.loading-indicator {
+  color: var(--accentColor);
+  font-size: 1.2rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(45deg, var(--accentColor), #64b5f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --sectionSpacing: 60px;
+    --headerHeight: 60px;
+  }
+
+  .content-container {
+    padding: 0 1rem;
+  }
+}
+
+/* Fix iOS 100vh issue */
+@supports (-webkit-touch-callout: none) {
+  .app-container,
+  .fallback-loader {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .content-container {
+    transition: opacity 0.5s ease-out;
+    transform: none;
+  }
+
+  .loading-indicator {
+    animation: none;
+  }
+}
+
+/* Content Sections */
+section {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--sectionSpacing) 0;
+  position: relative;
+  overflow: hidden;
+}

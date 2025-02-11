@@ -1,0 +1,42 @@
+{
+  "name": "Mohamed Abubaker - Portfolio",
+  "short_name": "MA Portfolio",
+  "description": "Software Engineer & Robotics Specialist Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b080c",
+  "theme_color": "#2196f3",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "portrait",
+  "categories": ["portfolio", "development", "robotics"],
+  "shortcuts": [
+    {
+      "name": "About",
+      "url": "/#about",
+      "description": "Learn more about me"
+    },
+    {
+      "name": "Projects",
+      "url": "/#work",
+      "description": "View my projects"
+    },
+    {
+      "name": "Contact",
+      "url": "/#contact",
+      "description": "Get in touch"
+    }
+  ]
+}

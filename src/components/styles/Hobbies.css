@@ -1,0 +1,115 @@
+.hobbies-section {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hobbies-container {
+  max-width: var(--cWidth);
+  margin: 0 auto;
+}
+
+.hobbies-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hobbies-header h2 {
+  font-size: 70px;
+  font-weight: 500;
+  background: linear-gradient(0deg, var(--accentColor), #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 50px;
+}
+
+.hobby-card {
+  background: rgba(33, 150, 243, 0.05);
+  border: 1px solid rgba(33, 150, 243, 0.1);
+  border-radius: 20px;
+  padding: 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hobby-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(33, 150, 243, 0.1);
+}
+
+.hobby-card h3 {
+  font-size: 28px;
+  color: var(--accentColor);
+  margin: 0 0 20px 0;
+}
+
+.hobby-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  color: #eae5ec;
+  opacity: 0.9;
+}
+
+.hobby-icon {
+  font-size: 40px;
+  color: var(--accentColor);
+  margin-bottom: 20px;
+}
+
+.hobby-placeholder {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #eae5ec;
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 900px) {
+  .hobbies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hobbies-header h2 {
+    font-size: 50px;
+  }
+
+  .hobby-card {
+    padding: 30px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hobbies-header h2 {
+    font-size: 40px;
+  }
+
+  .hobby-card h3 {
+    font-size: 24px;
+  }
+}
+
+.hobby-card.content-pending {
+  position: relative;
+  overflow: hidden;
+}
+
+.hobby-card.content-pending::after {
+  content: "Content Coming Soon";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(33, 150, 243, 0.9);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}

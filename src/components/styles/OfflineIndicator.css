@@ -1,0 +1,103 @@
+.offline-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 8px;
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+.offline-indicator.offline {
+  background-color: rgba(244, 67, 54, 0.95);
+}
+
+.offline-indicator.slow-connection {
+  background-color: rgba(255, 152, 0, 0.95);
+}
+
+.offline-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  max-width: var(--cMaxWidth);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.offline-icon {
+  font-size: 18px;
+  animation: pulse 2s infinite;
+}
+
+.offline-text {
+  line-height: 1.2;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Backdrop filter for modern browsers */
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .offline-indicator {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .offline-indicator.offline {
+    background-color: rgba(244, 67, 54, 0.85);
+  }
+  
+  .offline-indicator.slow-connection {
+    background-color: rgba(255, 152, 0, 0.85);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .offline-content {
+    font-size: 12px;
+  }
+  
+  .offline-icon {
+    font-size: 16px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .offline-indicator {
+    animation: none;
+  }
+  
+  .offline-icon {
+    animation: none;
+  }
+}
