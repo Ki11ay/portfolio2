@@ -1,49 +1,42 @@
 import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './styles/WhatIDo.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const WhatIDo = () => {
+  const sectionRef = useRef(null);
   const containerRef = useRef([]);
-  
+
   const setRef = (el, index) => {
     containerRef.current[index] = el;
   };
 
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
+    // Animate content sections with translateY only
+    containerRef.current.forEach((container, i) => {
+      if (container) {
+        gsap.from(container, {
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 80%',
+          },
+          y: 30,
+          duration: 0.8,
+          delay: i * 0.2,
+          ease: 'power3.out'
+        });
+      }
+    });
 
     return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
-      });
+      ScrollTrigger.getAll().forEach(st => st.kill());
     };
   }, []);
 
-  const handleClick = (container) => {
-    container.classList.toggle("what-content-active");
-    container.classList.remove("what-sibling");
-    if (container.parentElement) {
-      const siblings = Array.from(container.parentElement.children);
-      siblings.forEach((sibling) => {
-        if (sibling !== container) {
-          sibling.classList.remove("what-content-active");
-          sibling.classList.toggle("what-sibling");
-        }
-      });
-    }
-  };
-
   return (
-    <div className="whatIDO" id="whatido">
+    <section className="whatIDO" id="whatido" ref={sectionRef}>
       <div className="what-box">
         <h2 className="title">
           W<span>HAT</span>
@@ -52,56 +45,10 @@ const WhatIDo = () => {
           </div>
         </h2>
       </div>
-      <div className="what-box">
-        <div className="what-box-in">
-          <div className="what-border2">
-            <svg width="100%">
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="100%"
-                stroke="white"
-                strokeWidth="2"
-                strokeDasharray="7,7"
-              />
-              <line
-                x1="100%"
-                y1="0"
-                x2="100%"
-                y2="100%"
-                stroke="white"
-                strokeWidth="2"
-                strokeDasharray="7,7"
-              />
-            </svg>
-          </div>
-          <div
-            className="what-content what-noTouch"
-            ref={(el) => setRef(el, 0)}
-          >
-            <div className="what-border1">
-              <svg height="100%">
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="100%"
-                  y2="0"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-                <line
-                  x1="0"
-                  y1="100%"
-                  x2="100%"
-                  y2="100%"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-              </svg>
-            </div>
+
+      <div className="what-content-wrapper">
+        <div className="what-main-content">
+          <div className="what-content" ref={(el) => setRef(el, 0)}>
             <div className="what-content-in">
               <h3>SOFTWARE ENGINEERING</h3>
               <h4>Specialization</h4>
@@ -122,23 +69,8 @@ const WhatIDo = () => {
               </div>
             </div>
           </div>
-          <div
-            className="what-content what-noTouch"
-            ref={(el) => setRef(el, 1)}
-          >
-            <div className="what-border1">
-              <svg height="100%">
-                <line
-                  x1="0"
-                  y1="100%"
-                  x2="100%"
-                  y2="100%"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeDasharray="6,6"
-                />
-              </svg>
-            </div>
+
+          <div className="what-content" ref={(el) => setRef(el, 1)}>
             <div className="what-content-in">
               <h3>ROBOTICS & AI</h3>
               <h4>Specialization</h4>
@@ -161,7 +93,7 @@ const WhatIDo = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

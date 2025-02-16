@@ -59,30 +59,65 @@ function monitorConnectionChanges(callback) {
 
 // Check if service worker is registered
 async function checkServiceWorkerRegistration() {
+  if (!('serviceWorker' in navigator)) return false;
+  
   try {
     const registration = await navigator.serviceWorker.ready;
     return registration.active !== null;
   } catch (error) {
-    console.error('Service Worker registration check failed:', error);
+    console.debug('Service Worker registration check:', error);
+    return false;
+  }
+}
+
+// Check for periodic sync permission
+async function checkPeriodicSyncPermission() {
+  if (!('permissions' in navigator)) return false;
+  
+  try {
+    const status = await navigator.permissions.query({
+      name: 'periodic-background-sync',
+    });
+    return status.state === 'granted';
+  } catch {
     return false;
   }
 }
 
 // Initialize offline support
 async function initOfflineSupport() {
+  // Skip in development
+  if (import.meta.env.DEV) {
+    console.debug('Offline support initialization skipped in development');
+    return false;
+  }
+
   if (!('serviceWorker' in navigator)) {
-    console.warn('Service Worker is not supported');
+    console.debug('Service Worker is not supported');
     return false;
   }
 
   try {
+    const hasPermission = await checkPeriodicSyncPermission();
+    if (!hasPermission) {
+      console.debug('Periodic sync permission not granted');
+      return false;
+    }
+
     const registration = await navigator.serviceWorker.ready;
-    await registration.periodicSync.register('content-sync', {
-      minInterval: 24 * 60 * 60 * 1000 // One day
-    });
+    const tags = await registration.periodicSync.getTags();
+    
+    // Only register if not already registered
+    if (!tags.includes('content-sync')) {
+      await registration.periodicSync.register('content-sync', {
+        minInterval: 24 * 60 * 60 * 1000 // One day
+      });
+      console.debug('Periodic sync registered successfully');
+    }
+    
     return true;
   } catch (error) {
-    console.warn('Periodic Sync could not be registered:', error);
+    console.debug('Periodic sync setup:', error);
     return false;
   }
 }
@@ -90,11 +125,36 @@ async function initOfflineSupport() {
 // Handle offline fallback
 function handleOfflineFallback() {
   if (!isOnline) {
-    // Show offline UI or notification
     document.body.classList.add('offline-mode');
   } else {
     document.body.classList.remove('offline-mode');
   }
+}
+
+// Handle PWA installation
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+async function showInstallPrompt() {
+  if (!deferredPrompt) return false;
+
+  try {
+    const result = await deferredPrompt.prompt();
+    console.debug('Install prompt result:', result);
+    deferredPrompt = null;
+    return true;
+  } catch (error) {
+    console.debug('Install prompt error:', error);
+    return false;
+  }
+}
+
+function isInstallable() {
+  return !!deferredPrompt;
 }
 
 // Export utilities
@@ -106,5 +166,7 @@ export {
   monitorConnectionChanges,
   checkServiceWorkerRegistration,
   initOfflineSupport,
-  handleOfflineFallback
+  handleOfflineFallback,
+  showInstallPrompt,
+  isInstallable
 };

@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import App from './App';
 import { initServiceWorker } from './utils/serviceWorkerUtils';
+import { initNetworkListeners } from './utils/networkUtils';
 import './index.css';
 
 // Register GSAP plugins
@@ -45,21 +46,28 @@ const initSmoothScroll = () => {
   });
 };
 
-// Handle PWA installation prompt
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent Chrome 76+ from automatically showing the prompt
-  e.preventDefault();
-  // Stash the event so it can be triggered later
-  window.deferredPrompt = e;
-});
+// Initialize PWA features
+const initPWA = async () => {
+  if (import.meta.env.DEV) {
+    console.debug('PWA features disabled in development mode');
+    return;
+  }
+
+  try {
+    // Initialize service worker
+    await initServiceWorker();
+    // Initialize network status listeners
+    initNetworkListeners();
+  } catch (error) {
+    console.debug('PWA initialization error:', error);
+  }
+};
 
 // Initialize the application
 const init = async () => {
-  // Initialize service worker for PWA support
-  await initServiceWorker();
-
-  // Create React root and render app
-  ReactDOM.createRoot(document.getElementById('root')).render(
+  // Start React app immediately
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
@@ -67,15 +75,12 @@ const init = async () => {
 
   // Initialize smooth scrolling after the app mounts
   window.addEventListener('load', initSmoothScroll);
+
+  // Initialize PWA features
+  await initPWA();
 };
 
 // Start the application
 init().catch(error => {
-  console.error('Failed to initialize application:', error);
-  // Render app even if service worker fails
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  console.error('Application initialization error:', error);
 });

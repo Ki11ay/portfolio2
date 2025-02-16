@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { FaMobileAlt, FaRobot, FaCode, FaMicrochip } from 'react-icons/fa';
 import './styles/About.css';
 
 const About = () => {
@@ -78,43 +77,6 @@ const About = () => {
             </p>
           </div>
 
-          <div className="experience-cards">
-            <div className="exp-card mobile">
-              <div className="card-front">
-                <FaMobileAlt className="card-icon" />
-                <h3>Mobile Development</h3>
-                <p>Creating seamless mobile experiences</p>
-              </div>
-              <div className="card-back">
-                <h4>Skills & Experience</h4>
-                <ul>
-                  <li><FaCode /> Flutter & Dart for cross-platform development</li>
-                  <li><FaCode /> React Native for native performance</li>
-                  <li><FaCode /> State management (BLoC, Provider, Redux)</li>
-                  <li><FaCode /> Firebase & REST API integration</li>
-                  <li><FaCode /> Native SDK implementation</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="exp-card robotics">
-              <div className="card-front">
-                <FaRobot className="card-icon" />
-                <h3>AI & Robotics</h3>
-                <p>Building intelligent automated systems</p>
-              </div>
-              <div className="card-back">
-                <h4>Skills & Experience</h4>
-                <ul>
-                  <li><FaMicrochip /> Computer Vision & ML pipeline development</li>
-                  <li><FaMicrochip /> ROS & ROS2 implementation</li>
-                  <li><FaMicrochip /> Sensor integration & processing</li>
-                  <li><FaMicrochip /> AI model deployment & optimization</li>
-                  <li><FaMicrochip /> Embedded systems programming</li>
-                </ul>
-              </div>
-            </div>
-          </div>
 
           <div className="about-cta">
             <button 

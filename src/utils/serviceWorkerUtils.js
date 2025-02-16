@@ -1,149 +1,103 @@
-// Check if the browser supports service workers
-export const isServiceWorkerSupported = () => {
-  return 'serviceWorker' in navigator && 'Notification' in window;
-};
-
 // Register service worker
-export const registerServiceWorker = async () => {
-  if (!isServiceWorkerSupported()) {
-    console.warn('Service workers are not supported');
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) {
+    console.debug('Service workers are not supported');
+    return false;
+  }
+
+  // Skip registration in development
+  if (import.meta.env.DEV) {
+    console.debug('Service worker registration skipped in development');
     return false;
   }
 
   try {
     const registration = await navigator.serviceWorker.register('/sw.js', {
-      scope: '/'
+      scope: '/',
+      type: 'module'
     });
 
-    // Check if there's an update available
+    if (registration.waiting) {
+      console.debug('New service worker waiting');
+    }
+
     registration.addEventListener('updatefound', () => {
       const newWorker = registration.installing;
-      if (newWorker) {
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // New content is available, notify the user
-            dispatchUpdateEvent();
-          }
-        });
-      }
+      
+      newWorker?.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          console.debug('New content is available; please refresh.');
+        }
+      });
     });
 
-    // Handle service worker updates
-    let refreshing = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!refreshing) {
-        refreshing = true;
-        window.location.reload();
-      }
-    });
-
-    console.log('Service worker registered successfully');
     return true;
   } catch (error) {
-    console.error('Service worker registration failed:', error);
+    console.debug('Service worker registration failed:', error);
     return false;
   }
-};
+}
 
-// Request notification permission
-export const requestNotificationPermission = async () => {
-  if (!('Notification' in window)) {
-    console.warn('Notifications not supported');
-    return false;
-  }
-
+// Unregister service worker
+async function unregisterServiceWorker() {
   try {
-    const permission = await Notification.requestPermission();
-    return permission === 'granted';
+    const registration = await navigator.serviceWorker.ready;
+    await registration.unregister();
+    console.debug('Service Worker unregistered successfully');
+    return true;
   } catch (error) {
-    console.error('Error requesting notification permission:', error);
+    console.debug('Service Worker unregistration failed:', error);
     return false;
   }
-};
+}
 
-// Check if the app can be installed (PWA)
-export const checkInstallability = async () => {
-  if (!window.deferredPrompt) {
-    return false;
-  }
-
-  try {
-    const promptEvent = window.deferredPrompt;
-    window.deferredPrompt = null;
-    await promptEvent.prompt();
-    const choiceResult = await promptEvent.userChoice;
-    return choiceResult.outcome === 'accepted';
-  } catch (error) {
-    console.error('Error showing install prompt:', error);
-    return false;
-  }
-};
-
-// Dispatch update event
-export const dispatchUpdateEvent = () => {
-  window.dispatchEvent(new CustomEvent('serviceWorkerUpdate'));
-};
-
-// Update service worker
-export const updateServiceWorker = async () => {
-  if (!isServiceWorkerSupported()) return;
-
+// Check for service worker updates
+async function checkForUpdates() {
   try {
     const registration = await navigator.serviceWorker.ready;
     await registration.update();
     return true;
   } catch (error) {
-    console.error('Error updating service worker:', error);
+    console.debug('Update check failed:', error);
     return false;
   }
-};
-
-// Initialize offline detection
-export const initOfflineDetection = () => {
-  window.addEventListener('online', () => {
-    document.body.classList.remove('offline');
-    // Sync data when back online
-    syncData();
-  });
-
-  window.addEventListener('offline', () => {
-    document.body.classList.add('offline');
-  });
-};
-
-// Sync data when back online
-const syncData = async () => {
-  if (!isServiceWorkerSupported()) return;
-
-  try {
-    const registration = await navigator.serviceWorker.ready;
-    if ('sync' in registration) {
-      await registration.sync.register('syncData');
-    }
-  } catch (error) {
-    console.error('Error registering sync:', error);
-  }
-};
-
-// Handle background sync
-export const handleBackgroundSync = async (event) => {
-  if (event.tag === 'syncData') {
-    try {
-      // Add your data sync logic here
-      console.log('Background sync successful');
-    } catch (error) {
-      console.error('Background sync failed:', error);
-    }
-  }
-};
+}
 
 // Initialize service worker
-export const initServiceWorker = async () => {
-  if (process.env.NODE_ENV === 'production') {
-    const swRegistered = await registerServiceWorker();
-    if (swRegistered) {
-      await requestNotificationPermission();
-      initOfflineDetection();
-    }
+async function initServiceWorker() {
+  if (import.meta.env.DEV) {
+    console.debug('Service worker initialization skipped in development');
+    return false;
   }
+
+  try {
+    // If already controlled by a service worker, check for updates
+    if (navigator.serviceWorker.controller) {
+      await checkForUpdates();
+      return true;
+    }
+
+    // Otherwise, register a new service worker
+    return await registerServiceWorker();
+  } catch (error) {
+    console.debug('Service worker initialization failed:', error);
+    return false;
+  }
+}
+
+// Force reload when new service worker takes over
+let refreshing = false;
+
+navigator.serviceWorker?.addEventListener('controllerchange', () => {
+  if (!refreshing) {
+    refreshing = true;
+    window.location.reload();
+  }
+});
+
+export {
+  initServiceWorker,
+  registerServiceWorker,
+  unregisterServiceWorker,
+  checkForUpdates
 };
