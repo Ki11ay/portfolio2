@@ -22,10 +22,6 @@
   color: var(--textColor);
 }
 
-.work-container h2 > span {
-  color: var(--accentColor);
-}
-
 .work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));

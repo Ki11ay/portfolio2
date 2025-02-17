@@ -13,10 +13,12 @@
     "@gsap/react": "^2.1.0",
     "@react-three/drei": "^9.121.5",
     "@react-three/fiber": "^8.17.14",
+    "@supabase/supabase-js": "^2.48.1",
     "gsap": "^3.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
+    "react-router-dom": "^6.29.0",
     "three": "^0.173.0"
   },
   "devDependencies": {

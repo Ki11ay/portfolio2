@@ -176,7 +176,7 @@ const Work = () => {
   return (
     <section className="work-section" id="work">
       <div className="work-container">
-        <h2>My <span>Projects</span></h2>
+        <h2>Projects</h2>
         <div className="work-grid">
           {projects.map((project) => (
             <article 

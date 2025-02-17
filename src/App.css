@@ -25,6 +25,47 @@
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
+section {
+  position: relative;
+}
+
+#cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transition: width 0.3s, height 0.3s;
+  will-change: transform;
+}
+
+#cursor::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#cursor:hover::after {
+  opacity: 1;
+}
+
+section {
+  position: relative;
+  mix-blend-mode: normal;
+  z-index: 1;
+  isolation: isolate;
+}
+
 .content-container.loaded {
   opacity: 1;
   transform: translateY(0);

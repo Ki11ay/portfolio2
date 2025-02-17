@@ -10,11 +10,11 @@
 }
 
 .navbar.scrolled {
-  background: rgba(11, 8, 12, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(11, 8, 12, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0.8rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .navbar-container {
@@ -31,11 +31,15 @@
   font-weight: 700;
   color: var(--accentColor);
   text-decoration: none;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
 }
 
 .logo:hover {
-  transform: scale(1.05);
+  background: rgba(141, 94, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .nav-links {
@@ -53,23 +57,40 @@
   position: relative;
 }
 
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--accentColor);
-  transition: width 0.2s ease;
+.back-to-home {
+  color: var(--accentColor) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600 !important;
+}
+
+.back-to-home::before {
+  content: '←';
+  font-size: 1.2em;
+}
+
+.nav-links a {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: transparent;
 }
 
 .nav-links a:hover {
   color: var(--accentColor);
+  background: rgba(141, 94, 255, 0.1);
+  transform: translateY(-1px);
 }
 
-.nav-links a:hover::after {
-  width: 100%;
+.nav-links a.active {
+  color: var(--accentColor);
+  background: rgba(141, 94, 255, 0.1);
+}
+
+/* Remove underline effect for back-to-home link */
+.back-to-home::after {
+  display: none;
 }
 
 .mobile-menu-button {
@@ -81,8 +102,14 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 0.5rem;
   z-index: 110;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.mobile-menu-button:hover {
+  background: rgba(141, 94, 255, 0.1);
 }
 
 .mobile-menu-button span {
@@ -102,6 +129,13 @@
 
 .mobile-menu-button.active span:last-child {
   transform: translateY(-9.5px) rotate(-45deg);
+}
+
+/* Always show navbar background on non-home pages */
+.navbar:not(.scrolled) {
+  background: rgba(11, 8, 12, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 @media (max-width: 768px) {
@@ -132,6 +166,10 @@
 
   .navbar-container {
     padding: 0 1rem;
+  }
+
+  .back-to-home {
+    font-size: 1.5rem;
   }
 }
 

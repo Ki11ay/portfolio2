@@ -26,7 +26,7 @@ const Contact = () => {
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
-        <h3>Contact</h3>
+        <h2 className="section-title">Contact</h2>
         <div className="contact-flex">
           <div className="contact-box">
             <h4>Email</h4>
@@ -59,17 +59,6 @@ const Contact = () => {
                 </span>
               </a>
             ))}
-          </div>
-
-          <div className="contact-box">
-            <h2>
-              Designed and Developed by
-              <br />
-              <span>Mohamed Abubaker</span>
-            </h2>
-            <h5>
-              <MdCopyright /> 2025
-            </h5>
           </div>
         </div>
       </div>

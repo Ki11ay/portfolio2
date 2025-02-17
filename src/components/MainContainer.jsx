@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,10 +12,11 @@ import Work from './Work';
 import TechStack from './TechStack';
 import Hobbies from './Hobbies';
 import Contact from './Contact';
+import WritingsList from './Writings/WritingsList';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MainContainer = () => {
+const MainLayout = () => {
   useEffect(() => {
     // Set up section animations
     const sections = document.querySelectorAll('section:not(#work)');
@@ -43,8 +45,7 @@ const MainContainer = () => {
   }, []);
 
   return (
-    <div className="container-main">
-      <Navbar />
+    <>
       <Landing />
       <About />
       <WhatIDo />
@@ -53,6 +54,20 @@ const MainContainer = () => {
       <TechStack />
       <Hobbies />
       <Contact />
+    </>
+  );
+};
+
+const MainContainer = () => {
+  const location = useLocation();
+
+  return (
+    <div className="container-main">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MainLayout />} />
+        <Route path="/writings" element={<WritingsList />} />
+      </Routes>
     </div>
   );
 };

@@ -1,0 +1,110 @@
+.writing-card {
+  background: linear-gradient(145deg, rgba(33, 150, 243, 0.05), rgba(33, 150, 243, 0.02));
+  border: 1px solid rgba(33, 150, 243, 0.1);
+  border-radius: 16px;
+  padding: clamp(25px, 4vw, 35px);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  text-align: center;
+  transform: translateY(0);
+  opacity: 0;
+  animation: cardFadeIn 0.6s ease forwards;
+}
+
+.writing-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--accentColor), #64b5f6);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.writing-card:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(145deg, rgba(33, 150, 243, 0.08), rgba(33, 150, 243, 0.04));
+  box-shadow: 0 10px 30px -10px rgba(33, 150, 243, 0.2);
+}
+
+.writing-card:hover::before {
+  opacity: 1;
+}
+
+.writing-card h3 {
+  color: #fff;
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+.writing-card p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.writing-card:hover p {
+  color: var(--accentColor);
+}
+
+/* Add staggered animation for cards */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply staggered delay to cards */
+.writing-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.writing-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.writing-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.writing-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.writing-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+@media (max-width: 768px) {
+  .writing-card {
+    padding: 25px;
+    min-height: 180px;
+  }
+
+  .writing-card h3 {
+    font-size: 1.3rem;
+  }
+}
