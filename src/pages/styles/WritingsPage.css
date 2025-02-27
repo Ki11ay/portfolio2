@@ -1,0 +1,185 @@
+/* Writings page container */
+.writings-page {
+  min-height: 100vh;
+  padding: 6rem 0;
+  background-color: var(--backgroundColor);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Content container */
+.writings-page .content-container {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header styles */
+.writings-header {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accentColor);
+  text-decoration: none;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  transition: opacity var(--transitionDuration) var(--transitionTiming);
+}
+
+.back-link:hover {
+  opacity: 0.8;
+}
+
+.page-title {
+  font-size: 3rem;
+  color: var(--headingColor);
+  margin: 0 0 1rem;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: var(--textColor);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Loading state */
+.loading-indicator {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--textColor);
+  font-size: 1.2rem;
+}
+
+/* Error state */
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  background: var(--errorBackground);
+  color: var(--errorColor);
+  border-radius: var(--radiusMd);
+  margin: 2rem 0;
+}
+
+.error-message button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--accentColor);
+  color: white;
+  border: none;
+  border-radius: var(--radiusSm);
+  cursor: pointer;
+  transition: opacity var(--transitionDuration) var(--transitionTiming);
+}
+
+.error-message button:hover {
+  opacity: 0.9;
+}
+
+/* Background elements */
+.writings-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    var(--accentColor) 0%,
+    rgba(var(--accentColorRGB), 0.1) 50%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  border-radius: 50%;
+  top: -20%;
+  right: -20%;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(var(--textColorRGB), 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .page-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .writings-page {
+    padding: 4rem 0;
+  }
+
+  .content-container {
+    padding: 0 1rem;
+  }
+
+  .writings-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .back-link {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .gradient-sphere {
+    opacity: 0.05;
+  }
+
+  .dots-pattern {
+    opacity: 0.3;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .gradient-sphere,
+  .dots-pattern {
+    display: none;
+  }
+
+  .back-link {
+    color: LinkText;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .writings-page * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -78,14 +78,14 @@ define(['./workbox-47da91e0'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "suppress-warnings.js",
-    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+    "url": "registerSW.js",
+    "revision": "3ca0b8505b4bec776b69afdba2768812"
   }, {
-    "url": "index.html",
-    "revision": "0.lq0htek6jpg"
+    "url": "/index.html",
+    "revision": "0.9a1u0msjtmo"
   }], {});
   workbox.cleanupOutdatedCaches();
-  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
+  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("/index.html"), {
     allowlist: [/^\/$/]
   }));
   workbox.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i, new workbox.CacheFirst({
@@ -98,7 +98,7 @@ define(['./workbox-47da91e0'], (function (workbox) { 'use strict';
     })]
   }), 'GET');
   workbox.registerRoute(/^https:\/\/fonts\.gstatic\.com\/.*/i, new workbox.CacheFirst({
-    "cacheName": "gstatic-fonts-webfonts",
+    "cacheName": "gstatic-fonts-cache",
     plugins: [new workbox.ExpirationPlugin({
       maxEntries: 10,
       maxAgeSeconds: 31536000
@@ -106,20 +106,18 @@ define(['./workbox-47da91e0'], (function (workbox) { 'use strict';
       statuses: [0, 200]
     })]
   }), 'GET');
-  workbox.registerRoute(/\.(?:png|jpg|jpeg|svg|gif|webp)$/i, new workbox.CacheFirst({
+  workbox.registerRoute(/\.(?:png|jpg|jpeg|svg|gif)$/i, new workbox.CacheFirst({
     "cacheName": "images-cache",
     plugins: [new workbox.ExpirationPlugin({
       maxEntries: 50,
       maxAgeSeconds: 2592000
-    }), new workbox.CacheableResponsePlugin({
-      statuses: [0, 200]
     })]
   }), 'GET');
   workbox.registerRoute(/^https:\/\/api\.*/i, new workbox.NetworkFirst({
     "cacheName": "api-cache",
     "networkTimeoutSeconds": 10,
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 50,
+      maxEntries: 200,
       maxAgeSeconds: 86400
     }), new workbox.CacheableResponsePlugin({
       statuses: [0, 200]

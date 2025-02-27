@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Check for TypeScript errors
+echo "🔍 Checking types..."
+npm run typecheck || exit 1
+
+# Run linting and formatting on staged files
+echo "✨ Running lint-staged..."
+npx lint-staged || exit 1
+
+# Check for forbidden tokens like console.log
+echo "🔍 Checking for forbidden tokens..."
+! git diff --cached --name-only | \
+    grep -E '\.(ts|tsx|js|jsx)$' | \
+    xargs grep --color -n "console\.log" && \
+    echo "✅ No console.log found" || \
+    (echo "❌ Remove console.log before committing" && exit 1)
+
+# Run tests if they exist
+if [ -f "src/__tests__" ]; then
+  echo "🧪 Running tests..."
+  npm test -- --watchAll=false || exit 1
+fi
+
+# Check dependency cycles
+echo "🔄 Checking for dependency cycles..."
+npx madge --circular --extensions ts,tsx ./src || exit 1
+
+# Validate TypeScript config
+echo "📝 Validating TypeScript config..."
+tsc --noEmit || exit 1
+
+echo "✅ Pre-commit checks passed!"

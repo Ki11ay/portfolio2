@@ -1,0 +1,143 @@
+/* Work section container */
+.work {
+  position: relative;
+  padding: var(--sectionSpacing) 0;
+  overflow: hidden;
+}
+
+.work .content-container {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 1;
+  position: relative;
+}
+
+/* Header styles */
+.work-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--headingColor);
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--textColor);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Projects grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 2rem;
+  margin: 0 auto;
+}
+
+/* Background elements */
+.work-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    var(--accentColor) 0%,
+    rgba(var(--accentColorRGB), 0.1) 50%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  border-radius: 50%;
+  top: -20%;
+  right: -20%;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(var(--textColorRGB), 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .projects-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .work {
+    padding: var(--sectionSpacingMobile) 0;
+  }
+
+  .work .content-container {
+    padding: 0 1rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .work-header {
+    margin-bottom: 2rem;
+  }
+
+  .projects-grid {
+    gap: 1rem;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .gradient-sphere {
+    opacity: 0.05;
+  }
+
+  .dots-pattern {
+    opacity: 0.3;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .gradient-sphere,
+  .dots-pattern {
+    display: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .work-header,
+  .projects-grid {
+    animation: none;
+  }
+}

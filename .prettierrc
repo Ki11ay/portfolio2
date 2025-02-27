@@ -1,0 +1,39 @@
+{
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "endOfLine": "auto",
+  "plugins": [],
+  "pluginSearchDirs": [],
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "htmlWhitespaceSensitivity": "css",
+  "embeddedLanguageFormatting": "auto",
+  "singleAttributePerLine": false,
+  "overrides": [
+    {
+      "files": "*.{css,scss}",
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": "*.{json,md}",
+      "options": {
+        "singleQuote": false,
+        "trailingComma": "none"
+      }
+    },
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}

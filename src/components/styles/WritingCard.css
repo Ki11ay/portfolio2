@@ -1,110 +1,274 @@
 .writing-card {
-  background: linear-gradient(145deg, rgba(33, 150, 243, 0.05), rgba(33, 150, 243, 0.02));
-  border: 1px solid rgba(33, 150, 243, 0.1);
-  border-radius: 16px;
-  padding: clamp(25px, 4vw, 35px);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  text-align: center;
-  transform: translateY(0);
-  opacity: 0;
-  animation: cardFadeIn 0.6s ease forwards;
-}
-
-.writing-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 16px;
-  padding: 2px;
-  background: linear-gradient(135deg, var(--accentColor), #64b5f6);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s var(--transitionTiming),
+              box-shadow 0.3s var(--transitionTiming);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  height: 100%;
 }
 
 .writing-card:hover {
   transform: translateY(-5px);
-  background: linear-gradient(145deg, rgba(33, 150, 243, 0.08), rgba(33, 150, 243, 0.04));
-  box-shadow: 0 10px 30px -10px rgba(33, 150, 243, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.writing-card:hover::before {
+/* Image container */
+.writing-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 60%;
+  overflow: hidden;
+}
+
+.writing-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--transitionTiming);
+}
+
+.writing-card:hover .writing-image {
+  transform: scale(1.1);
+}
+
+/* Overlay */
+.writing-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s var(--transitionTiming);
+  backdrop-filter: blur(3px);
+}
+
+.writing-card:hover .writing-overlay {
   opacity: 1;
 }
 
-.writing-card h3 {
-  color: #fff;
-  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
-  font-weight: 600;
-  margin: 0 0 15px 0;
-  line-height: 1.4;
-  position: relative;
-  z-index: 1;
-}
-
-.writing-card p {
-  color: rgba(255, 255, 255, 0.7);
+.read-more {
+  color: var(--backgroundColor);
+  background: var(--accentColor);
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
   font-size: 0.9rem;
-  margin: 0;
-  position: relative;
-  z-index: 1;
-  transition: color 0.3s ease;
+  transform: translateY(20px);
+  transition: transform 0.3s var(--transitionTiming),
+              background-color 0.3s var(--transitionTiming);
 }
 
-.writing-card:hover p {
+.writing-card:hover .read-more {
+  transform: translateY(0);
+}
+
+/* Content */
+.writing-content {
+  padding: 1.5rem;
+}
+
+.writing-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--textColor);
+  opacity: 0.8;
+}
+
+.writing-date,
+.writing-read-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.writing-title {
+  font-size: 1.3rem;
+  color: var(--textColor);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.writing-excerpt {
+  font-size: 0.95rem;
+  color: var(--textColor);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tags */
+.writing-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.writing-tag {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
   color: var(--accentColor);
+  transition: all 0.3s var(--transitionTiming);
 }
 
-/* Add staggered animation for cards */
-@keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.writing-tag:hover {
+  background: var(--accentColor);
+  color: var(--backgroundColor);
+}
+
+/* Stats */
+.writing-stats {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--textColor);
+  opacity: 0.8;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+}
+
+/* Offline notice */
+.offline-notice {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.8rem;
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  backdrop-filter: blur(5px);
+}
+
+.offline-icon {
+  font-size: 1.1rem;
+}
+
+/* Card decoration */
+.card-decoration .corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 2px solid var(--accentColor);
+  opacity: 0.5;
+  transition: all 0.3s var(--transitionTiming);
+}
+
+.writing-card:hover .corner {
+  opacity: 1;
+}
+
+.corner.top-left {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner.top-right {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Focus styles */
+.writing-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accentColor);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .writing-card,
+  .writing-image,
+  .writing-overlay,
+  .read-more,
+  .writing-tag {
+    transition: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .writing-card:hover .writing-image {
+    transform: none;
   }
 }
 
-/* Apply staggered delay to cards */
-.writing-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.writing-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.writing-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.writing-card:nth-child(4) {
-  animation-delay: 0.4s;
-}
-.writing-card:nth-child(5) {
-  animation-delay: 0.5s;
-}
-
-@media (max-width: 768px) {
+/* High contrast mode */
+@media (forced-colors: active) {
   .writing-card {
-    padding: 25px;
-    min-height: 180px;
+    border: 1px solid CanvasText;
   }
 
-  .writing-card h3 {
-    font-size: 1.3rem;
+  .writing-tag {
+    border: 1px solid CanvasText;
+  }
+
+  .read-more {
+    outline: 1px solid CanvasText;
+  }
+
+  .card-decoration {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .writing-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #000;
+  }
+
+  .writing-overlay,
+  .card-decoration {
+    display: none;
+  }
+
+  .writing-tag {
+    border: 1px solid #000;
   }
 }

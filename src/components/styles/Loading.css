@@ -1,117 +1,198 @@
-.loading-screen {
+.loading {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--backgroundColor);
+  inset: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
-  transition: opacity 0.5s ease-out;
+  justify-content: center;
+  background: var(--backgroundColor);
+  z-index: var(--zIndexLoader);
 }
 
-.loading-screen.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.loading-container {
+.loading-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
+/* Spinner */
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(33, 150, 243, 0.1);
-  border-top-color: var(--accentColor);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 20s linear infinite;
 }
 
-.loading-text {
-  color: var(--accentColor);
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  animation: pulse 1.5s ease-in-out infinite;
+.spinner-circle {
+  transform-origin: center;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.3s var(--transitionTiming);
 }
 
 .loading-progress {
-  width: 200px;
-  height: 4px;
-  background: rgba(33, 150, 243, 0.1);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-bar {
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background-color: var(--accentColor);
-  transition: width 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--textColor);
 }
 
-/* Loading animations */
+/* Loading text */
+.loading-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--textColor);
+}
+
+.loading-text p {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.loading-dots span {
+  animation: dots 1.4s infinite;
+  opacity: 0;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Background elements */
+.loading-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle at center,
+    var(--accentColorLight) 0%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  animation: float 20s ease-in-out infinite;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at center,
+    var(--textColor) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.03;
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 0%,
+    transparent 70%
+  );
+}
+
+/* Animations */
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes pulse {
+@keyframes dots {
   0%, 100% {
-    opacity: 1;
+    opacity: 0;
   }
   50% {
-    opacity: 0.5;
+    opacity: 1;
   }
 }
 
-/* Loading Dots Animation */
-.loading-dots::after {
-  content: '';
-  animation: dots 1.5s infinite;
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 30px);
+  }
 }
 
-@keyframes dots {
-  0% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
-  100% { content: ''; }
-}
-
-/* Media Queries */
+/* Media queries */
 @media (max-width: 768px) {
-  .loading-container {
-    gap: 1rem;
-  }
-
   .loading-spinner {
-    width: 30px;
-    height: 30px;
+    width: 80px;
+    height: 80px;
   }
 
-  .loading-text {
+  .loading-text p {
     font-size: 1rem;
   }
 
   .loading-progress {
-    width: 150px;
+    font-size: 0.9rem;
   }
 }
 
-/* Fix iOS height */
-@supports (-webkit-touch-callout: none) {
-  .loading-screen {
-    height: -webkit-fill-available;
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner,
+  .gradient-sphere {
+    animation: none;
+  }
+
+  .spinner-circle {
+    transition: none;
+  }
+
+  .loading-dots span {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .spinner-circle,
+  .spinner-background {
+    stroke: CanvasText;
+  }
+
+  .loading-progress,
+  .loading-text {
+    color: CanvasText;
+  }
+
+  .gradient-sphere,
+  .dots-pattern {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .loading {
+    display: none;
   }
 }

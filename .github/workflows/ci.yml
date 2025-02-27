@@ -1,0 +1,134 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check types
+      run: npm run typecheck
+
+    - name: Run linting
+      run: npm run lint
+
+    - name: Run tests (if available)
+      run: npm test || true
+
+    - name: Generate PWA assets
+      run: |
+        npm run pwa:icons
+        npm run pwa:screenshots
+      env:
+        CI: true
+
+    - name: Build project
+      run: npm run build
+      env:
+        VITE_SITE_URL: ${{ secrets.SITE_URL }}
+        VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        VITE_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+        VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+        VITE_EMAILJS_USER_ID: ${{ secrets.EMAILJS_USER_ID }}
+        VITE_PWA_NAME: "Mohamed Abubaker"
+        VITE_PWA_SHORT_NAME: "M.Abubaker"
+        VITE_PWA_THEME_COLOR: "#0b080c"
+        VITE_PWA_BACKGROUND_COLOR: "#0b080c"
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          **/node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+        working-directory: ./dist
+
+    - name: Clear CDN cache
+      if: success()
+      run: |
+        curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+        -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+        -H "Content-Type: application/json" \
+        --data '{"purge_everything":true}'
+
+    - name: Send deployment notification
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: |
+          ${{ secrets.SITE_URL }}
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+        configPath: './.github/lighthouse/config.json'
+
+    - name: Save Lighthouse report
+      uses: actions/upload-artifact@v3
+      with:
+        name: lighthouse-report
+        path: .lighthouseci

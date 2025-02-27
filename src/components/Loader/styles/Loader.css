@@ -1,0 +1,215 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--backgroundColor);
+  z-index: var(--zIndexLoading);
+  opacity: 1;
+  transition: opacity 0.5s var(--transitionTiming);
+}
+
+.loading-screen.exit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* Logo animation */
+.logo-animation {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+
+.logo-svg {
+  width: 100%;
+  height: 100%;
+  color: var(--accentColor);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-circle,
+.logo-path {
+  transition: stroke-dashoffset 0.3s var(--transitionTiming);
+}
+
+/* Loading info */
+.loading-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 300px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accentColor);
+  transition: width 0.3s var(--transitionTiming);
+  box-shadow: 0 0 10px var(--accentColor);
+}
+
+.loading-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loading-message {
+  font-size: 1.1rem;
+  color: var(--textColor);
+  min-width: 200px;
+  text-align: center;
+}
+
+.loading-percentage {
+  font-size: 1rem;
+  color: var(--accentColor);
+  font-weight: 500;
+}
+
+/* Background elements */
+.loader-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle at center,
+    var(--accentColorLight) 0%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  animation: float 20s ease-in-out infinite;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at center,
+    var(--textColor) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.03;
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 0%,
+    transparent 70%
+  );
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 30px);
+  }
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .logo-animation {
+    width: 100px;
+    height: 100px;
+  }
+
+  .loading-info {
+    width: 250px;
+  }
+
+  .loading-message {
+    font-size: 1rem;
+    min-width: 160px;
+  }
+
+  .loading-percentage {
+    font-size: 0.9rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen {
+    transition: none;
+  }
+
+  .logo-svg,
+  .gradient-sphere {
+    animation: none;
+  }
+
+  .logo-circle,
+  .logo-path,
+  .progress-fill {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .logo-svg {
+    color: Highlight;
+  }
+
+  .progress-fill {
+    background: Highlight;
+    box-shadow: none;
+  }
+
+  .loading-percentage {
+    color: Highlight;
+  }
+
+  .gradient-sphere,
+  .dots-pattern {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .loading-screen {
+    display: none;
+  }
+}

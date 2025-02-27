@@ -1,0 +1,226 @@
+/* Hobbies section */
+.hobbies {
+  position: relative;
+  padding: var(--sectionSpacing) 0;
+  overflow: hidden;
+}
+
+.hobbies .content-container {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.hobbies-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--headingColor);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--textColor);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Hobbies grid */
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 0 auto;
+}
+
+/* Hobby card */
+.hobby-card,
+.hobby-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hobby-card {
+  background: var(--cardBackground);
+  border-radius: var(--radiusLg);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transitionDuration) var(--transitionTiming),
+              box-shadow var(--transitionDuration) var(--transitionTiming);
+  box-shadow: var(--shadowMd);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.hobby-card:hover,
+.hobby-card-link:hover .hobby-card {
+  transform: translateY(-5px);
+  box-shadow: var(--shadowLg);
+}
+
+/* Card content */
+.hobby-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hobby-title {
+  font-size: 1.5rem;
+  color: var(--headingColor);
+  margin: 0;
+}
+
+.hobby-description {
+  font-size: 1rem;
+  color: var(--textColor);
+  opacity: 0.9;
+  line-height: 1.6;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Special styling for writings card */
+.hobby-card-link .hobby-card {
+  background: linear-gradient(
+    45deg,
+    var(--accentColor) 0%,
+    var(--accentColorLight) 100%
+  );
+  color: white;
+}
+
+.hobby-card-link .hobby-title,
+.hobby-card-link .hobby-description {
+  color: white;
+}
+
+.hobby-card-link .hobby-card::after {
+  content: "→";
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  transition: transform var(--transitionDuration) var(--transitionTiming);
+}
+
+.hobby-card-link:hover .hobby-card::after {
+  transform: translateX(5px);
+}
+
+/* Background elements */
+.hobbies-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    var(--accentColor) 0%,
+    rgba(var(--accentColorRGB), 0.1) 50%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  border-radius: 50%;
+  top: -20%;
+  right: -20%;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(var(--textColorRGB), 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .hobbies-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hobbies {
+    padding: var(--sectionSpacingMobile) 0;
+  }
+
+  .hobbies .content-container {
+    padding: 0 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .hobbies-header {
+    margin-bottom: 2rem;
+  }
+
+  .hobby-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .hobby-card {
+    background: var(--cardBackgroundDark);
+  }
+
+  .hobby-card-link .hobby-card {
+    background: linear-gradient(
+      45deg,
+      var(--accentColor) 0%,
+      var(--accentColorDark) 100%
+    );
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .hobby-card {
+    border: 2px solid CanvasText;
+  }
+
+  .hobby-card:hover {
+    border-color: Highlight;
+  }
+
+  .hobby-card-link .hobby-card {
+    border: 2px solid ButtonText;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hobby-card,
+  .hobby-card::after {
+    transition: none !important;
+  }
+}

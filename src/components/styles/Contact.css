@@ -1,136 +1,192 @@
-.contact-section {
-  padding: 4rem 2rem;
-  background: var(--backgroundColor);
+/* Contact section */
+.contact {
+  position: relative;
+  padding: var(--sectionSpacing) 0;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
-.contact-container {
+.contact .content-container {
   max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.contact-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--headingColor);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--textColor);
+  opacity: 0.9;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-.contact-container .section-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 600;
-  text-align: center;
-  margin: 0 0 4rem;
-  color: var(--textColor);
-}
-
-.contact-flex {
+/* Social Links */
+.social-links {
   display: flex;
-  justify-content: space-between;
-  margin-top: 50px;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 600px;
 }
 
-.contact-flex h4 {
-  font-weight: 500;
-  margin: 0;
-  opacity: 0.6;
-}
-
-.contact-box {
+.social-link {
   display: flex;
   flex-direction: column;
-}
-
-.contact-box:first-child {
-  max-width: 300px;
-}
-
-.contact-flex p {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-a.contact-social {
-  font-size: 25px;
-  display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  color: var(--textColor);
+  transition: transform var(--transitionDuration) var(--transitionTiming),
+              color var(--transitionDuration) var(--transitionTiming);
+  padding: 1rem;
 }
 
-a.contact-social svg {
-  transition: transform 0.3s ease;
-}
-
-a.contact-social:hover svg {
-  transform: translateX(5px);
-}
-
-.contact-box h2 {
-  font-weight: 400;
-  font-size: 23px;
-  margin: 0;
-}
-
-.contact-box h2 > span {
+.social-link:hover {
   color: var(--accentColor);
+  transform: translateY(-3px);
 }
 
-.contact-box h5 {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 20px;
-  display: flex;
-  gap: 10px;
-  opacity: 0.5;
-  margin-top: 15px;
-}
-
-.contact-location {
+.social-icon {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 5px;
-  color: #eae5ec;
-  opacity: 0.8;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--cardBackground);
+  border-radius: var(--radiusFull);
+  margin-bottom: 1rem;
+  box-shadow: var(--shadowMd);
+  transition: background-color var(--transitionDuration) var(--transitionTiming),
+              transform var(--transitionDuration) var(--transitionTiming);
 }
 
-@media only screen and (max-width: 1600px) {
-  .contact-section h3 {
-    font-size: 50px;
-  }
-  .contact-box h2 {
-    font-size: 20px;
-  }
-  a.contact-social {
-    font-size: 22px;
-  }
+.social-link:hover .social-icon {
+  background: var(--accentColor);
+  color: white;
+  transform: scale(1.1);
 }
 
-@media only screen and (max-width: 1300px) {
-  .contact-section h3 {
-    font-size: 40px;
-  }
-  .contact-box h2 {
-    font-size: 18px;
-  }
-  a.contact-social {
-    font-size: 20px;
-  }
-  .contact-flex p {
-    margin-top: 0px;
-  }
+.social-name {
+  font-size: 1.1rem;
+  font-weight: var(--fontWeightMedium);
 }
 
-@media only screen and (max-width: 900px) {
-  .contact-flex {
+/* Background elements */
+.contact-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    var(--accentColor) 0%,
+    rgba(var(--accentColorRGB), 0.1) 50%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  border-radius: 50%;
+  bottom: -30%;
+  left: -20%;
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(var(--textColorRGB), 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .contact {
+    padding: var(--sectionSpacingMobile) 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .social-links {
     flex-direction: column;
-    gap: 40px;
+    align-items: center;
+    gap: 2rem;
   }
-  .contact-flex p {
-    margin-bottom: 0px;
+
+  .social-link {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
   }
-  .contact-flex h4 {
-    margin-top: 20px;
+
+  .social-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0;
   }
-  .contact-section {
-    margin-top: 50px;
-    padding-bottom: 50px;
+
+  .social-name {
+    font-size: 1rem;
   }
-  .contact-container {
-    width: calc(100% - 25px);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .social-icon {
+    background: var(--cardBackgroundDark);
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .social-link {
+    color: ButtonText;
+  }
+
+  .social-icon {
+    border: 2px solid ButtonText;
+  }
+
+  .social-link:hover .social-icon {
+    border-color: SelectedItem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .social-link,
+  .social-icon {
+    transition: none !important;
   }
 }

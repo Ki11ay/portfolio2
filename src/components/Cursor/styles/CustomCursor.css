@@ -1,0 +1,140 @@
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: var(--zIndexCursor);
+  will-change: transform;
+  transition: opacity 0.3s var(--transitionTiming);
+}
+
+.main-cursor {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 2px solid var(--accentColor);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--transitionTiming),
+              height 0.3s var(--transitionTiming),
+              border 0.3s var(--transitionTiming),
+              opacity 0.3s var(--transitionTiming),
+              background-color 0.3s var(--transitionTiming);
+}
+
+.dot-cursor {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accentColor);
+  border-radius: 50%;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--transitionTiming),
+              height 0.3s var(--transitionTiming),
+              opacity 0.3s var(--transitionTiming),
+              background-color 0.3s var(--transitionTiming);
+}
+
+/* Cursor states */
+.main-cursor.hover {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(97, 218, 251, 0.1);
+  border-color: var(--accentColorLight);
+}
+
+.dot-cursor.hover {
+  opacity: 0;
+}
+
+.main-cursor.hidden,
+.dot-cursor.hidden {
+  opacity: 0;
+}
+
+.main-cursor.text {
+  width: 80px;
+  height: 80px;
+  border-color: var(--accentColorLight);
+}
+
+.dot-cursor.text {
+  opacity: 0;
+}
+
+/* Text content for cursor states */
+.cursor-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  color: var(--accentColor);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s var(--transitionTiming);
+}
+
+.main-cursor.text .cursor-text {
+  opacity: 1;
+}
+
+/* Override cursor styles for the entire document when custom cursor is active */
+:root.has-custom-cursor {
+  cursor: none !important;
+}
+
+:root.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .main-cursor,
+  .dot-cursor {
+    display: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    transition: none;
+  }
+
+  .main-cursor,
+  .dot-cursor {
+    transition: none;
+  }
+
+  .cursor-text {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .main-cursor {
+    border-color: Highlight;
+  }
+
+  .dot-cursor {
+    background-color: Highlight;
+  }
+
+  .cursor-text {
+    color: Highlight;
+  }
+}
+
+/* Print styles */
+@media print {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}

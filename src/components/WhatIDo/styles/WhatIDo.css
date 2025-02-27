@@ -1,0 +1,169 @@
+.whatido {
+  position: relative;
+  min-height: 100vh;
+  padding: 8rem 2rem 4rem; /* Increased top padding to prevent overlap */
+  overflow: hidden;
+}
+
+.whatido-content {
+  position: relative;
+  z-index: 2;
+}
+
+.whatido-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--textColor);
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--textColorLight);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  position: relative;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s var(--transitionTiming);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.service-title {
+  font-size: 1.5rem;
+  color: var(--textColor);
+  margin-bottom: 1rem;
+}
+
+.service-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--textColorLight);
+  margin-bottom: 1.5rem;
+}
+
+.service-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(var(--accentColor), 0.1);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--accentColor);
+  backdrop-filter: blur(5px);
+}
+
+.whatido-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle at center,
+    var(--accentColorLight) 0%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  top: -20%;
+  right: -20%;
+  animation: float 20s ease-in-out infinite;
+}
+
+.pattern-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: radial-gradient(
+    circle at center,
+    var(--textColor) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .whatido {
+    padding: 6rem 1rem 3rem; /* Adjusted padding for mobile */
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card:hover {
+    transform: none;
+  }
+
+  .gradient-sphere {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .service-card {
+    border: 1px solid CanvasText;
+  }
+
+  .skill-tag {
+    border: 1px solid CanvasText;
+  }
+
+  .gradient-sphere,
+  .pattern-grid {
+    display: none;
+  }
+}

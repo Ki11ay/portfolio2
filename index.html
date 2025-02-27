@@ -2,125 +2,72 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/icons/icon-192x192.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Mohamed Abubaker - Software Engineer & Robotics Specialist Portfolio" />
-    <meta name="theme-color" content="#0b080c" />
-    <link rel="prerender" href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <meta name="description" content="My professional portfolio showcasing my work and experience" />
     
-    <!-- PWA Support -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1f2937" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="MA Portfolio" />
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <meta name="apple-mobile-web-app-title" content="Portfolio" />
     
-    <!-- SEO Meta Tags -->
-    <meta name="keywords" content="software engineer, robotics, embedded systems, full stack developer, portfolio" />
-    <meta name="author" content="Mohamed Abubaker" />
-    <meta property="og:title" content="Mohamed Abubaker - Portfolio" />
-    <meta property="og:description" content="Software Engineer & Robotics Specialist" />
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Apple Splash Screens -->
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-2048-2732.png" 
+      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-1668-2388.png" 
+      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-1536-2048.png" 
+      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-1290-2796.png" 
+      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    />
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-1179-2556.png" 
+      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    />
+    <link 
+      rel="apple-touch-startup-image" 
+      href="/icons/apple-splash-1170-2532.png" 
+      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    />
+
+    <!-- SEO Tags -->
+    <meta name="application-name" content="Portfolio" />
+    <meta name="msapplication-TileColor" content="#1f2937" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <!-- Social Media Tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/screenshots/desktop.png" />
-    
-    <!-- Performance Optimization -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- Critical CSS -->
-    <style>
-      :root {
-        --backgroundColor: #0b080c;
-        --accentColor: #2196f3;
-        --textColor: #ffffff;
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: var(--backgroundColor);
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        overflow-x: hidden;
-        color: var(--textColor);
-      }
-
-      .initial-loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--backgroundColor);
-        color: var(--accentColor);
-        gap: 1rem;
-      }
-
-      .loader-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(33, 150, 243, 0.1);
-        border-top-color: var(--accentColor);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      .loader-text {
-        font-size: 1rem;
-        opacity: 0.9;
-      }
-
-      .noscript-message {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: var(--accentColor);
-        color: white;
-        text-align: center;
-        padding: 1rem;
-        font-size: 1rem;
-        z-index: 9999;
-      }
-
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-
-      @supports (-webkit-touch-callout: none) {
-        .initial-loader {
-          height: -webkit-fill-available;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .loader-spinner {
-          animation: none;
-        }
-      }
-    </style>
-
-    <title>Mohamed Abubaker - Portfolio</title>
+    <meta property="og:title" content="Portfolio" />
+    <meta property="og:description" content="My professional portfolio showcasing my work and experience" />
+    <meta property="og:image" content="/screenshots/desktop-1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <noscript>
-      <div class="noscript-message">
-        Please enable JavaScript to view this portfolio website.
-        The portfolio requires JavaScript to provide the best interactive experience.
-      </div>
-    </noscript>
-    
-    <div id="root">
-      <div class="initial-loader">
-        <div class="loader-spinner" role="progressbar" aria-label="Loading portfolio"></div>
-        <div class="loader-text" aria-live="polite">Loading Portfolio...</div>
-      </div>
-    </div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

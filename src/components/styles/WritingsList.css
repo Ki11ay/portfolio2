@@ -1,117 +1,149 @@
+/* Writing list container */
 .writings-container {
-  padding: clamp(70px, 5vw, 60px);
-  max-width: min(1400px, 95vw);
-  margin: 50px auto 0;
-  min-height: calc(100vh - 120px);
+  width: 100%;
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 2rem 0;
 }
 
-.writings-container h2 {
-  text-align: center;
-  color: var(--accentColor);
-  margin-bottom: clamp(30px, 5vw, 60px);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 600;
-  opacity: 0;
-  animation: fadeInDown 0.8s ease forwards;
-  background: linear-gradient(45deg, var(--accentColor), #64b5f6);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
+/* Grid layout for writings */
 .writings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-  gap: clamp(20px, 3vw, 40px);
-  padding: clamp(10px, 2vw, 30px);
-  opacity: 0;
-  animation: fadeIn 1s ease 0.3s forwards;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-.writings-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-  color: #fff;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  opacity: 0;
-  animation: fadeIn 0.5s ease forwards;
-}
-
-.writings-loading::after {
-  content: '';
-  width: 24px;
-  height: 24px;
-  margin-left: 12px;
-  border: 2px solid var(--accentColor);
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-.writings-error {
-  background-color: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.2);
+/* Writing card base styles */
+.writing-card {
+  background: var(--cardBackground);
   border-radius: 12px;
-  padding: clamp(20px, 4vw, 40px);
-  margin: 20px auto;
-  max-width: 600px;
-  text-align: center;
-  color: #ff6b6b;
-  opacity: 0;
-  animation: fadeIn 0.5s ease forwards;
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.writings-error p {
-  margin-top: 15px;
+.writing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Writing card content */
+.writing-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.writing-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--headingColor);
+  margin: 0;
+}
+
+.writing-excerpt {
+  font-size: 1rem;
+  color: var(--textColor);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.writing-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--textColor);
+  opacity: 0.7;
+  margin-top: auto;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.read-more {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--accentColor);
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.read-more svg {
+  transition: transform 0.3s ease;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.writing-card:hover .read-more svg {
+  transform: translateX(5px);
 }
 
-/* Responsive adjustments */
+/* Loading state */
+.writings-loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--textColor);
+  font-size: 1.2rem;
+}
+
+/* Error state */
+.writings-error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--errorColor);
+  background: var(--errorBackground);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
-  .writings-container {
-    padding: clamp(15px, 3vw, 30px);
-    margin-top: 100px;
-    min-height: calc(100vh - 100px);
+  .writings-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .writings-grid {
-    gap: 15px;
-    padding: 10px;
+  .writing-card {
+    padding: 1.25rem;
+  }
+
+  .writing-title {
+    font-size: 1.25rem;
   }
 }
 
-@media (min-width: 1200px) {
-  .writings-grid {
-    grid-template-columns: repeat(3, 1fr);
+/* High contrast mode */
+@media (forced-colors: active) {
+  .writing-card {
+    border: 2px solid CanvasText;
+  }
+  
+  .read-more {
+    color: LinkText;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .writing-card {
+    transition: none;
+  }
+  
+  .read-more svg {
+    transition: none;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .writing-card {
+    background: var(--cardBackgroundDark, #2a2a2a);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .writing-card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
   }
 }

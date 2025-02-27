@@ -1,0 +1,158 @@
+.pwa-status {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pwa-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background-color: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  color: var(--text-primary, #000000);
+  transition: all 0.2s ease-in-out;
+}
+
+.pwa-status.compact .pwa-status-indicator {
+  padding: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+  justify-content: center;
+}
+
+.pwa-status-icon {
+  font-size: 1.125em;
+  line-height: 1;
+}
+
+/* Status variants */
+.pwa-status-indicator.success {
+  background-color: var(--success-bg, rgba(46, 204, 113, 0.1));
+  border-color: var(--success-border, rgba(46, 204, 113, 0.2));
+  color: var(--success-text, #27ae60);
+}
+
+.pwa-status-indicator.warning {
+  background-color: var(--warning-bg, rgba(241, 196, 15, 0.1));
+  border-color: var(--warning-border, rgba(241, 196, 15, 0.2));
+  color: var(--warning-text, #f39c12);
+}
+
+.pwa-status-indicator.error {
+  background-color: var(--error-bg, rgba(231, 76, 60, 0.1));
+  border-color: var(--error-border, rgba(231, 76, 60, 0.2));
+  color: var(--error-text, #e74c3c);
+}
+
+.pwa-status-indicator.info {
+  background-color: var(--info-bg, rgba(52, 152, 219, 0.1));
+  border-color: var(--info-border, rgba(52, 152, 219, 0.2));
+  color: var(--info-text, #3498db);
+}
+
+.pwa-status-text {
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes status-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pwa-status-indicator.warning .pwa-status-icon,
+.pwa-status-indicator.error .pwa-status-icon {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .pwa-status-indicator {
+    background-color: var(--surface-dark, #1f1f1f);
+    border-color: var(--border-dark, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary-dark, #ffffff);
+  }
+
+  .pwa-status-indicator.success {
+    background-color: var(--success-bg-dark, rgba(46, 204, 113, 0.15));
+    border-color: var(--success-border-dark, rgba(46, 204, 113, 0.3));
+    color: var(--success-text-dark, #2ecc71);
+  }
+
+  .pwa-status-indicator.warning {
+    background-color: var(--warning-bg-dark, rgba(241, 196, 15, 0.15));
+    border-color: var(--warning-border-dark, rgba(241, 196, 15, 0.3));
+    color: var(--warning-text-dark, #f1c40f);
+  }
+
+  .pwa-status-indicator.error {
+    background-color: var(--error-bg-dark, rgba(231, 76, 60, 0.15));
+    border-color: var(--error-border-dark, rgba(231, 76, 60, 0.3));
+    color: var(--error-text-dark, #e74c3c);
+  }
+
+  .pwa-status-indicator.info {
+    background-color: var(--info-bg-dark, rgba(52, 152, 219, 0.15));
+    border-color: var(--info-border-dark, rgba(52, 152, 219, 0.3));
+    color: var(--info-text-dark, #3498db);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .pwa-status {
+    justify-content: center;
+  }
+
+  .pwa-status:not(.compact) .pwa-status-indicator {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .pwa-status-indicator {
+    transition: none;
+  }
+
+  .pwa-status-indicator .pwa-status-icon {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .pwa-status-indicator {
+    border: 2px solid currentColor;
+  }
+
+  .pwa-status-indicator.success {
+    color: CanvasText;
+  }
+
+  .pwa-status-indicator.warning {
+    color: Mark;
+  }
+
+  .pwa-status-indicator.error {
+    color: LinkText;
+  }
+
+  .pwa-status-indicator.info {
+    color: GrayText;
+  }
+}

@@ -1,172 +1,132 @@
-:root {
-  --backgroundColor: #0b080c;
-  --textColor: #ffffff;
-  --accentColor: #2196f3;
-  --maxWidth: 1200px;
-  --headerHeight: 70px;
-  --sectionSpacing: 100px;
-}
-
-.app-container {
+/* App container */
+.app {
   min-height: 100vh;
-  width: 100%;
-  background-color: var(--backgroundColor);
-  color: var(--textColor);
-  overflow-x: hidden;
   position: relative;
-  opacity: 0;
-  animation: fadeIn 0.5s ease-out forwards;
+  background-color: var(--backgroundColor);
 }
 
-.content-container {
-  position: relative;
+/* Page transitions */
+.page-enter {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-section {
-  position: relative;
-}
-
-#cursor {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  border-radius: 50%;
-  left: var(--mouse-x, 50%);
-  top: var(--mouse-y, 50%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  mix-blend-mode: difference;
-  z-index: 9999;
-  transition: width 0.3s, height 0.3s;
-  will-change: transform;
-}
-
-#cursor::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-#cursor:hover::after {
+.page-enter-active {
   opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s var(--transitionTiming),
+              transform 0.3s var(--transitionTiming);
 }
 
-section {
-  position: relative;
-  mix-blend-mode: normal;
-  z-index: 1;
-  isolation: isolate;
-}
-
-.content-container.loaded {
+.page-exit {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Loading States */
-.fallback-loader {
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s var(--transitionTiming),
+              transform 0.3s var(--transitionTiming);
+}
+
+/* Loading screen */
+.loading-screen {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   background-color: var(--backgroundColor);
-  z-index: 1000;
+  z-index: var(--zIndexLoading);
 }
 
-.loading-indicator {
-  color: var(--accentColor);
-  font-size: 1.2rem;
-  animation: pulse 1.5s ease-in-out infinite;
+/* Notifications and indicators */
+.notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem;
+  border-radius: var(--radiusMd);
+  background: var(--cardBackground);
+  box-shadow: var(--shadowMd);
+  z-index: var(--zIndexToast);
+  animation: slideIn 0.3s var(--transitionTiming);
 }
 
-/* Utility Classes */
-.text-gradient {
-  background: linear-gradient(45deg, var(--accentColor), #64b5f6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Animations */
-@keyframes fadeIn {
+@keyframes slideIn {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  :root {
-    --sectionSpacing: 60px;
-    --headerHeight: 60px;
-  }
-
-  .content-container {
-    padding: 0 1rem;
-  }
-}
-
-/* Fix iOS 100vh issue */
-@supports (-webkit-touch-callout: none) {
-  .app-container,
-  .fallback-loader {
-    min-height: -webkit-fill-available;
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .content-container {
-    transition: opacity 0.5s ease-out;
-    transform: none;
-  }
-
-  .loading-indicator {
-    animation: none;
-  }
-}
-
-/* Content Sections */
-section {
-  min-height: 100vh;
-  width: 100%;
+/* Error boundary fallback */
+.error-fallback {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: var(--sectionSpacing) 0;
-  position: relative;
-  overflow: hidden;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--backgroundColor);
+}
+
+.error-fallback h1 {
+  color: var(--headingColor);
+  margin-bottom: 1rem;
+}
+
+.error-fallback p {
+  color: var(--textColor);
+  margin-bottom: 2rem;
+}
+
+.error-fallback button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accentColor);
+  color: white;
+  border: none;
+  border-radius: var(--radiusMd);
+  cursor: pointer;
+  transition: opacity 0.3s var(--transitionTiming);
+}
+
+.error-fallback button:hover {
+  opacity: 0.9;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .notification {
+    background: var(--cardBackgroundDark);
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .notification {
+    border: 2px solid CanvasText;
+  }
+
+  .error-fallback button {
+    border: 2px solid ButtonText;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .page-enter-active,
+  .page-exit,
+  .page-exit-active,
+  .notification {
+    transition: none !important;
+    animation: none !important;
+  }
 }

@@ -1,28 +1,85 @@
 :root {
   /* Colors */
-  --backgroundColor: #0b080c;
-  --textColor: #ffffff;
-  --accentColor: #2196f3;
-  --secondaryColor: #1976d2;
-  --errorColor: #ff4444;
-  --successColor: #4caf50;
-  
-  /* Typography */
-  --fontFamily: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --fontSize: 16px;
-  --lineHeight: 1.5;
-  
+  --backgroundColor: #ffffff;
+  --backgroundColorDark: #121212;
+  --textColor: #2d3436;
+  --textColorDark: #e0e0e0;
+  --headingColor: #2d3436;
+  --headingColorDark: #ffffff;
+  --accentColor: #0984e3;
+  --accentColorRGB: 9, 132, 227;
+  --accentColorLight: #74b9ff;
+  --accentColorDark: #0652DD;
+
+  /* Card Colors */
+  --cardBackground: #ffffff;
+  --cardBackgroundDark: #1e1e1e;
+  --cardBorderColor: rgba(0, 0, 0, 0.1);
+  --cardBorderColorDark: rgba(255, 255, 255, 0.1);
+
+  /* Tag Colors */
+  --tagBackground: rgba(9, 132, 227, 0.1);
+  --tagBackgroundDark: rgba(9, 132, 227, 0.2);
+  --tagColor: var(--accentColor);
+  --tagColorDark: var(--accentColorLight);
+
+  /* Border Colors */
+  --borderColor: rgba(0, 0, 0, 0.1);
+  --borderColorDark: rgba(255, 255, 255, 0.1);
+
   /* Spacing */
+  --sectionSpacing: 6rem;
+  --sectionSpacingMobile: 4rem;
   --maxWidth: 1200px;
-  --sectionSpacing: 100px;
-  --headerHeight: 70px;
-  --gridGap: 2rem;
-  
+
+  /* Z-index levels */
+  --zIndexBackground: -1;
+  --zIndexContent: 1;
+  --zIndexHeader: 10;
+  --zIndexModal: 100;
+  --zIndexToast: 1000;
+
   /* Transitions */
-  --transitionTiming: 0.3s ease;
-  --transitionTimingLong: 0.5s ease;
+  --transitionTiming: cubic-bezier(0.4, 0, 0.2, 1);
+  --transitionDuration: 0.3s;
+
+  /* Shadows */
+  --shadowColor: rgba(0, 0, 0, 0.1);
+  --shadowColorDark: rgba(0, 0, 0, 0.2);
+  --shadowSm: 0 1px 3px var(--shadowColor);
+  --shadowMd: 0 4px 6px var(--shadowColor);
+  --shadowLg: 0 10px 15px var(--shadowColor);
+  --shadowInner: inset 0 2px 4px var(--shadowColor);
+
+  /* Typography */
+  --fontFamily: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fontSizeBase: 16px;
+  --lineHeightBase: 1.5;
+  --fontWeightNormal: 400;
+  --fontWeightMedium: 500;
+  --fontWeightBold: 600;
+
+  /* Border Radius */
+  --radiusSm: 4px;
+  --radiusMd: 8px;
+  --radiusLg: 12px;
+  --radiusXl: 16px;
+  --radiusFull: 9999px;
 }
 
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --backgroundColor: var(--backgroundColorDark);
+    --textColor: var(--textColorDark);
+    --headingColor: var(--headingColorDark);
+    --cardBackground: var(--cardBackgroundDark);
+    --borderColor: var(--borderColorDark);
+    --shadowColor: var(--shadowColorDark);
+  }
+}
+
+/* Global styles */
 * {
   margin: 0;
   padding: 0;
@@ -30,117 +87,40 @@
 }
 
 html {
-  font-size: var(--fontSize);
+  font-size: var(--fontSizeBase);
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--fontFamily);
-  line-height: var(--lineHeight);
-  background-color: var(--backgroundColor);
+  line-height: var(--lineHeightBase);
   color: var(--textColor);
-  overflow-x: hidden;
+  background-color: var(--backgroundColor);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-}
-
-h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-}
-
-h3 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-}
-
-p {
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Utility Classes */
-.container {
-  width: 100%;
-  max-width: var(--maxWidth);
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.text-gradient {
-  background: linear-gradient(45deg, var(--accentColor), var(--secondaryColor));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.section-spacing {
-  padding: var(--sectionSpacing) 0;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+/* Smooth scrolling for supporting browsers */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(33, 150, 243, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--accentColor);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--secondaryColor);
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
+/* High contrast mode */
+@media (forced-colors: active) {
   :root {
-    --sectionSpacing: 60px;
-    --headerHeight: 60px;
-  }
-}
-
-/* Fix iOS 100vh issue */
-@supports (-webkit-touch-callout: none) {
-  .min-h-screen {
-    min-height: -webkit-fill-available;
+    --accentColor: SelectedItem;
+    --borderColor: ButtonText;
   }
 }

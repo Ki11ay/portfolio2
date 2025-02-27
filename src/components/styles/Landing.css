@@ -1,138 +1,364 @@
-.landing-section {
+.landing {
+  position: relative;
   min-height: 100vh;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  box-sizing: border-box;
-  background: var(--backgroundColor);
+  overflow: hidden;
+}
+
+.landing-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Text elements */
+.greeting {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--accentColor);
+  margin-bottom: 1rem;
+  opacity: 0;
+}
+
+.name {
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  opacity: 0;
+}
+
+.first-name,
+.last-name {
+  display: block;
+}
+
+.last-name {
+  color: var(--accentColor);
+}
+
+.intro {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  opacity: 0;
+}
+
+.highlight {
+  color: var(--accentColor);
+  position: relative;
+  white-space: nowrap;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accentColor);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s var(--transitionTiming);
+}
+
+.intro:hover .highlight::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* CTA buttons */
+.cta-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+}
+
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 30px;
+  border: none;
+  cursor: none;
+  transition: all 0.3s var(--transitionTiming);
+  text-decoration: none;
+}
+
+.cta-button.primary {
+  background: var(--accentColor);
+  color: var(--backgroundColor);
+}
+
+.cta-button.primary:hover {
+  background: var(--accentColorLight);
+  transform: translateY(-2px);
+}
+
+.cta-button.primary:hover .button-icon {
+  transform: translateY(2px);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  border: 1px solid var(--accentColor);
+  color: var(--textColor);
+}
+
+.cta-button.secondary:hover {
+  background: rgba(97, 218, 251, 0.1);
+  transform: translateY(-2px);
+}
+
+.button-icon {
+  width: 1.2em;
+  height: 1.2em;
+  transition: transform 0.3s var(--transitionTiming);
+}
+
+.cta-button.secondary:hover .button-icon {
+  transform: translateX(5px);
+}
+
+/* Social links */
+.social-links {
+  display: flex;
+  gap: 2rem;
+  opacity: 0;
+}
+
+.social-link {
+  color: var(--textColor);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  transition: color 0.3s var(--transitionTiming);
+}
+
+.social-link:hover {
+  color: var(--accentColor);
+}
+
+.link-arrow {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s var(--transitionTiming);
+}
+
+.social-link:hover .link-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeIn 1s var(--transitionTiming) forwards 1s;
+}
+
+.scroll-text {
+  font-size: 0.9rem;
+  color: var(--textColor);
+  opacity: 0.8;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
 }
 
-.landing-section::after {
-  content: '';
+.scroll-dot {
+  width: 100%;
+  height: 30%;
+  background: var(--accentColor);
+  position: absolute;
+  top: 0;
+  animation: scrollDown 2s var(--transitionTiming) infinite;
+}
+
+/* Background elements */
+.landing-background {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(141, 94, 255, 0.06) 0%,
-    transparent 50%
-  );
-  opacity: 0;
-  transition: opacity 0.3s;
+  overflow: hidden;
   pointer-events: none;
-  z-index: 1;
 }
 
-.landing-section:hover::after {
-  opacity: 1;
+.gradient-sphere {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(
+    circle at center,
+    var(--accentColorLight) 0%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.1;
+  top: -20%;
+  right: -20%;
+  animation: float 20s ease-in-out infinite;
 }
 
-.landing-content {
-  max-width: 700px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  text-align: center;
-  padding: 0 1rem;
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out forwards;
-  position: relative;
-  z-index: 2;
+.code-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: repeating-linear-gradient(
+    120deg,
+    var(--textColor) 0px,
+    var(--textColor) 1px,
+    transparent 1px,
+    transparent 60px
+  );
 }
 
-.landing-intro {
-  margin-bottom: 0.5rem;
-  opacity: 0;
-  animation: slideUp 0.8s ease-out forwards;
-  animation-delay: 0.2s;
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to right,
+    var(--textColor) 1px,
+    transparent 1px
+  ),
+  linear-gradient(
+    to bottom,
+    var(--textColor) 1px,
+    transparent 1px
+  );
+  background-size: 50px 50px;
+  opacity: 0.03;
 }
 
-.landing-intro h3 {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: var(--accentColor);
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-}
-
-.landing-intro h1 {
-  font-size: clamp(2.8rem, 6vw, 4.5rem);
-  font-weight: 700;
-  color: var(--textColor);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-
-.landing-intro h1 span {
-  color: var(--accentColor);
-  display: inline-block;
-}
-
-.landing-info {
-  opacity: 0;
-  animation: slideUp 0.8s ease-out forwards;
-  animation-delay: 0.4s;
-}
-
-.landing-info h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  color: var(--textColor);
-  margin: 0 0 1rem 0;
-  font-weight: 600;
-}
-
-.landing-info p {
-  font-size: clamp(1.1rem, 1.2vw, 1.2rem);
-  line-height: 1.6;
-  color: var(--textColor);
-  max-width: 540px;
-  margin: 0 auto;
-}
-
+/* Animations */
 @keyframes fadeIn {
-  0% {
+  from {
     opacity: 0;
+    transform: translateY(20px);
   }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+@keyframes scrollDown {
+  0% {
+    top: -30%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 30px);
+  }
+}
+
+/* Media queries */
 @media (max-width: 768px) {
-  .landing-section {
-    padding: 2rem 1rem;
-    min-height: 100svh;
+  .landing {
+    padding: 1rem;
   }
 
-  .landing-content {
-    gap: 2rem;
+  .name {
+    font-size: 3rem;
   }
 
-  .landing-intro h1 {
-    font-size: clamp(2.4rem, 8vw, 3rem);
+  .intro {
+    font-size: 1.2rem;
   }
 
-  .landing-info h2 {
-    font-size: clamp(1.3rem, 5vw, 1.6rem);
+  .cta-container {
+    flex-direction: column;
   }
 
-  .landing-info p {
-    font-size: 1.1rem;
-    line-height: 1.6;
+  .social-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-sphere,
+  .scroll-dot,
+  .button-icon,
+  .link-arrow,
+  .highlight::after {
+    animation: none;
+    transition: none;
+  }
+
+  .cta-button:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .cta-button.primary {
+    background: Highlight;
+    color: Canvas;
+  }
+
+  .cta-button.secondary {
+    border-color: CanvasText;
+  }
+
+  .highlight::after {
+    background: CanvasText;
+  }
+
+  .scroll-line {
+    background: CanvasText;
+  }
+
+  .gradient-sphere,
+  .code-pattern,
+  .grid-overlay {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .cta-container,
+  .social-links,
+  .scroll-indicator,
+  .landing-background {
+    display: none;
+  }
+
+  .landing {
+    min-height: auto;
+    padding: 2rem 0;
   }
 }

@@ -1,0 +1,9 @@
+# This directory will contain app screenshots for the PWA manifest
+# Required sizes:
+# - Desktop: 1920x1080
+# - Mobile: 390x844
+# Screenshots should be PNG format with descriptive names:
+# - desktop-home.png
+# - desktop-work.png
+# - mobile-home.png
+# - mobile-work.png

@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate commit message format
+echo "🔍 Validating commit message..."
+
+commit_msg=$(cat "$1")
+pattern="^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .{1,50}$"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ Invalid commit message format."
+  echo "Must match pattern: type(scope): message"
+  echo "Types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert"
+  echo "Example: feat(auth): add login functionality"
+  exit 1
+fi
+
+# Check commit message length
+if [ ${#commit_msg} -gt 72 ]; then
+  echo "❌ Commit message is too long (max 72 characters)"
+  exit 1
+fi
+
+# Check for empty commit message
+if [ -z "$commit_msg" ]; then
+  echo "❌ Empty commit message"
+  exit 1
+fi
+
+# Check for WIP commits
+if echo "$commit_msg" | grep -qiE "^WIP|WIP$|WIP |work in progress"; then
+  echo "❌ WIP commits are not allowed"
+  exit 1
+fi
+
+# Check for merge conflicts markers
+if echo "$commit_msg" | grep -qE "^[<>|=]{7}"; then
+  echo "❌ Merge conflict markers detected in commit message"
+  exit 1
+fi
+
+echo "✅ Commit message format is valid!"

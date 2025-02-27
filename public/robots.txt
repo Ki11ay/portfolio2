@@ -1,4 +1,23 @@
+# Allow all web crawlers to access all parts of the site
 User-agent: *
 Allow: /
 
-Sitemap: https://your-domain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://mohamed-abubaker.com/sitemap.xml
+
+# Disallow crawling of development and API endpoints
+Disallow: /api/
+Disallow: /dev/
+Disallow: /.env
+Disallow: /.env.*
+Disallow: /cdn-cgi/
+
+# Rate limiting
+Crawl-delay: 10
+
+# Define clean parameters
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content
+Clean-param: fbclid&gclid&msclkid
+
+# Host preference
+Host: https://mohamed-abubaker.com
