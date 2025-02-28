@@ -1,0 +1,66 @@
+/* ScrollSmoother styles */
+.smooth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.smooth-content {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  /* Reserve space for fixed elements like navbar */
+  padding-top: var(--navHeight, 4rem);
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accentColor);
+  border-radius: var(--radiusFull);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accentColorDark);
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accentColor) transparent;
+}
+
+/* Disable smooth scroll for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .smooth-wrapper,
+  .smooth-content {
+    transform: none !important;
+    will-change: unset !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  ::-webkit-scrollbar-thumb {
+    background: ButtonText;
+  }
+
+  * {
+    scrollbar-color: ButtonText Canvas;
+  }
+}

@@ -5,25 +5,35 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LoadingScreen from './components/Loader/LoadingScreen';
 import OfflineIndicator from './components/OfflineIndicator';
 import UpdateNotification from './components/UpdateNotification';
+import SmoothScroll from './components/SmoothScroll/SmoothScroll';
+import Navbar from './components/Navbar';
 import MainContainer from './components/MainContainer';
-const WritingsPage = React.lazy(() => import('./pages/WritingsPage'));
 import './App.css';
+
+// Lazy load writings components
+const WritingsPage = React.lazy(() => import('./pages/WritingsPage/WritingsPage'));
+const WritingViewer = React.lazy(() => import('./components/Writings/WritingViewer'));
 
 const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <NetworkProvider>
         <Router>
-          <div className="app">
-            <OfflineIndicator />
-            <UpdateNotification />
+          {/* Fixed elements outside of smooth scroll */}
+          <Navbar />
+          <OfflineIndicator />
+          <UpdateNotification />
+          
+          {/* Main content with smooth scrolling */}
+          <SmoothScroll>
             <Suspense fallback={<LoadingScreen />}>
               <Routes>
                 <Route path="/" element={<MainContainer />} />
                 <Route path="/writings" element={<WritingsPage />} />
+                <Route path="/writings/:id" element={<WritingViewer />} />
               </Routes>
             </Suspense>
-          </div>
+          </SmoothScroll>
         </Router>
       </NetworkProvider>
     </ErrorBoundary>

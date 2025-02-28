@@ -4,22 +4,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: var(--navHeight, 4rem);
-  background: rgba(var(--backgroundColorRGB), 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   z-index: var(--zIndexHeader);
   transition: transform 0.3s var(--transitionTiming);
-  border-bottom: 1px solid rgba(var(--textColorRGB), 0.1);
+  background: rgba(var(--backgroundColorRGB), 0.8);
+  backdrop-filter: blur(10px);
 }
 
 /* Nav content */
 .nav-content {
-  max-width: 1440px;
-  width: 95%;
-  height: 100%;
+  max-width: var(--maxWidth);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +25,6 @@
 .nav-links {
   display: flex;
   gap: 2rem;
-  align-items: center;
 }
 
 .nav-link {
@@ -38,21 +32,13 @@
   padding: 0.5rem;
   background: none;
   border: none;
+  cursor: pointer;
   color: var(--textColor);
   font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
   transition: color 0.3s var(--transitionTiming);
-  opacity: 0.7;
-}
-
-.nav-link:hover {
-  opacity: 1;
-  color: var(--accentColor);
 }
 
 .nav-link.active {
-  opacity: 1;
   color: var(--accentColor);
 }
 
@@ -80,7 +66,7 @@
 /* Progress bar */
 .nav-progress {
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 2px;
@@ -91,44 +77,42 @@
 .progress-bar {
   height: 100%;
   background: var(--accentColor);
-  width: 0;
   transition: width 0.1s linear;
 }
 
-/* Menu button */
+/* Mobile menu button */
 .menu-button {
   display: none;
   border: none;
   background: none;
   padding: 1rem;
   cursor: pointer;
-  position: relative;
-  z-index: 100;
 }
 
-.menu-icon,
-.menu-icon::before,
-.menu-icon::after {
-  display: block;
+.menu-icon {
+  position: relative;
   width: 24px;
   height: 2px;
   background: var(--textColor);
-  transition: transform 0.3s var(--transitionTiming),
-              background-color 0.3s var(--transitionTiming);
+  transition: background-color 0.3s var(--transitionTiming);
 }
 
 .menu-icon::before,
 .menu-icon::after {
   content: '';
   position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--textColor);
+  transition: transform 0.3s var(--transitionTiming);
 }
 
 .menu-icon::before {
-  top: -8px;
+  transform: translateY(-8px);
 }
 
 .menu-icon::after {
-  bottom: -8px;
+  transform: translateY(8px);
 }
 
 .menu-button.open .menu-icon {
@@ -136,17 +120,17 @@
 }
 
 .menu-button.open .menu-icon::before {
-  transform: translateY(8px) rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .menu-button.open .menu-icon::after {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
-/* Mobile menu */
+/* Responsive design */
 @media (max-width: 768px) {
   .nav-content {
-    padding: 0 1rem;
+    padding: 0.75rem 1rem;
     justify-content: flex-end;
   }
 
@@ -159,26 +143,19 @@
     top: var(--navHeight, 4rem);
     left: 0;
     right: 0;
-    flex-direction: column;
     background: var(--backgroundColor);
     padding: 1rem;
+    flex-direction: column;
     gap: 1rem;
     transform: translateY(-100%);
     opacity: 0;
-    visibility: hidden;
     transition: transform 0.3s var(--transitionTiming),
-                opacity 0.3s var(--transitionTiming),
-                visibility 0s linear 0.3s;
+                opacity 0.3s var(--transitionTiming);
   }
 
   .navbar.menu-open .nav-links {
     transform: translateY(0);
     opacity: 1;
-    visibility: visible;
-    transition: transform 0.3s var(--transitionTiming),
-                opacity 0.3s var(--transitionTiming),
-                visibility 0s linear;
-    box-shadow: var(--shadowMd);
   }
 }
 
@@ -186,10 +163,6 @@
 @media (prefers-color-scheme: dark) {
   .navbar {
     background: rgba(var(--backgroundColorDarkRGB), 0.8);
-  }
-
-  .nav-links {
-    background: var(--backgroundColorDark);
   }
 }
 
@@ -200,15 +173,13 @@
     backdrop-filter: none;
   }
 
-  .nav-indicator,
-  .nav-progress {
-    border: 1px solid ButtonText;
+  .nav-link.active {
+    text-decoration: underline;
   }
 
-  .menu-icon,
-  .menu-icon::before,
-  .menu-icon::after {
-    background: ButtonText;
+  .nav-indicator,
+  .nav-progress {
+    display: none;
   }
 }
 
@@ -217,10 +188,7 @@
   .navbar,
   .nav-link,
   .nav-indicator,
-  .nav-links,
-  .menu-icon,
-  .menu-icon::before,
-  .menu-icon::after {
+  .nav-links {
     transition: none !important;
   }
 }

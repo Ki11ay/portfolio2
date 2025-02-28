@@ -1,0 +1,250 @@
+/* Writing viewer container */
+.writing-viewer {
+  min-height: 100vh;
+  padding: calc(var(--navHeight) + 2rem) 0;
+  background: var(--backgroundColor);
+}
+
+/* Back button */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: var(--textColor);
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s var(--transitionTiming);
+  margin-bottom: 2rem;
+}
+
+.back-button:hover {
+  opacity: 1;
+}
+
+/* Writing content */
+.writing-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Writing header */
+.writing-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.writing-header h1 {
+  font-size: 2.5rem;
+  color: var(--headingColor);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.writing-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--textColor);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.read-time {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.read-time::before {
+  content: "•";
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(var(--accentColorRGB), 0.1);
+  color: var(--accentColor);
+  border-radius: var(--radiusFull);
+}
+
+/* Writing body */
+.writing-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--textColor);
+}
+
+.writing-body h2 {
+  font-size: 1.8rem;
+  color: var(--headingColor);
+  margin: 2.5rem 0 1rem;
+}
+
+.writing-body h3 {
+  font-size: 1.4rem;
+  color: var(--headingColor);
+  margin: 2rem 0 1rem;
+}
+
+.writing-body p {
+  margin-bottom: 1.5rem;
+}
+
+.writing-body a {
+  color: var(--accentColor);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--transitionTiming);
+}
+
+.writing-body a:hover {
+  border-color: var(--accentColor);
+}
+
+.writing-body ul,
+.writing-body ol {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.writing-body li {
+  margin-bottom: 0.5rem;
+}
+
+.writing-body code {
+  font-family: var(--monoFont);
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  background: rgba(var(--textColorRGB), 0.1);
+  border-radius: var(--radiusSm);
+}
+
+.writing-body pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(var(--textColorRGB), 0.05);
+  border-radius: var(--radiusMd);
+  overflow-x: auto;
+}
+
+.writing-body pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 0;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--borderColor);
+  border-top-color: var(--accentColor);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.error-state {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.error-state p {
+  color: var(--errorColor);
+  margin-bottom: 1rem;
+}
+
+.error-state button {
+  padding: 0.75rem 1.5rem;
+  background: var(--accentColor);
+  color: white;
+  border: none;
+  border-radius: var(--radiusMd);
+  cursor: pointer;
+  transition: background 0.3s var(--transitionTiming);
+}
+
+.error-state button:hover {
+  background: var(--accentColorDark);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .writing-content {
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .writing-header h1 {
+    font-size: 2rem;
+  }
+
+  .writing-body {
+    font-size: 1rem;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .writing-viewer {
+    background: var(--backgroundColorDark);
+  }
+
+  .writing-body code {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .writing-body pre {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .tag {
+    border: 1px solid ButtonText;
+  }
+
+  .writing-body code,
+  .writing-body pre {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
+
+  .back-button {
+    transition: none;
+  }
+}

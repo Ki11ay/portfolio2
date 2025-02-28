@@ -1,7 +1,7 @@
 :root {
   /* Colors */
   --backgroundColor: #ffffff;
-  --backgroundColorDark: #121212;
+  --backgroundColorDark: #000000;
   --textColor: #2d3436;
   --textColorDark: #e0e0e0;
   --headingColor: #2d3436;
@@ -28,7 +28,7 @@
   --borderColorDark: rgba(255, 255, 255, 0.1);
 
   /* Spacing */
-  --sectionSpacing: 6rem;
+  --sectionSpacing: 0rem;
   --sectionSpacingMobile: 4rem;
   --maxWidth: 1200px;
 

@@ -1,102 +1,150 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import type { WritingViewerProps } from '../../types/writings';
-import '../styles/WritingViewer.css';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { gsap } from '../../plugins/gsap-register';
+import { getWritingById } from '../../utils/supabase';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
+import './styles/WritingViewer.css';
 
-const WritingViewer: React.FC<WritingViewerProps> = ({
-  title,
-  content,
-  date,
-  readTime,
-  onClose
-}) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+interface Writing {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  tags: string[];
+  read_time?: number;
+}
+
+const WritingViewer: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [writing, setWriting] = useState<Writing | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const containerRef = useScrollAnimation({
+    y: 30,
+    opacity: 0,
+    duration: 0.8
+  });
 
   useEffect(() => {
-    const overlay = overlayRef.current;
-    const contentContainer = contentRef.current;
-    if (!overlay || !contentContainer) return;
+    let isMounted = true;
 
-    // Animation timeline
-    const tl = gsap.timeline();
-    
-    // Animate overlay
-    tl.fromTo(overlay,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, ease: 'power2.out' }
-    );
+    const loadWriting = async () => {
+      if (!id) {
+        navigate('/writings');
+        return;
+      }
 
-    // Animate content
-    tl.fromTo(contentContainer,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' },
-      '-=0.1'
-    );
-
-    // Handle escape key
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await getWritingById(id);
+        if (isMounted) {
+          setWriting(data);
+        }
+      } catch (err) {
+        console.error('Error loading writing:', err);
+        if (isMounted) {
+          setError('Failed to load the article. Please try again later.');
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-
-    // Prevent body scroll
-    document.body.style.overflow = 'hidden';
+    loadWriting().catch(console.error);
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'auto';
+      isMounted = false;
     };
-  }, [onClose]);
+  }, [id, navigate]);
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === overlayRef.current) {
-      onClose();
+  const handleClose = () => {
+    const navigateToWritings = () => navigate('/writings');
+
+    if (containerRef.current) {
+      gsap.to(containerRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.3,
+        onComplete: navigateToWritings
+      });
+    } else {
+      navigateToWritings();
     }
   };
 
+  if (isLoading) {
+    return (
+      <main className="writing-viewer">
+        <div className="content-container">
+          <div className="loading-state">
+            <div className="loading-spinner"></div>
+            <p>Loading article...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !writing) {
+    return (
+      <main className="writing-viewer">
+        <div className="content-container">
+          <div className="error-state">
+            <p>{error || 'Article not found'}</p>
+            <button onClick={() => navigate('/writings')}>
+              Back to Writings
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <div
-      ref={overlayRef}
-      className="writing-viewer-overlay"
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="writing-title"
-    >
-      <div ref={contentRef} className="writing-viewer-content">
-        <button
-          className="close-button"
-          onClick={onClose}
-          aria-label="Close writing viewer"
-        >
-          ×
+    <main className="writing-viewer" ref={containerRef}>
+      <div className="content-container">
+        <button className="back-button" onClick={handleClose}>
+          ← Back to Writings
         </button>
-        
-        <article className="writing-article">
+
+        <article className="writing-content">
           <header className="writing-header">
-            <h2 id="writing-title">{title}</h2>
+            <h1>{writing.title}</h1>
             <div className="writing-meta">
-              <span className="writing-date">{date}</span>
-              <span className="writing-readtime">{readTime}</span>
+              <time dateTime={writing.created_at}>
+                {new Date(writing.created_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              {writing.read_time && (
+                <span className="read-time">
+                  {writing.read_time} min read
+                </span>
+              )}
+            </div>
+            <div className="tags">
+              {writing.tags?.map((tag, index) => (
+                <span key={`${tag}-${index}`} className="tag">
+                  {tag}
+                </span>
+              ))}
             </div>
           </header>
 
-          <div className="writing-content">
-            {content.split('\n').map((paragraph, index) => (
-              paragraph.trim() && (
-                <p key={index} className="writing-paragraph">
-                  {paragraph}
-                </p>
-              )
-            ))}
-          </div>
+          <div 
+            className="writing-body"
+            dangerouslySetInnerHTML={{ __html: writing.content }}
+          />
         </article>
       </div>
-    </div>
+    </main>
   );
 };
 
