@@ -17,10 +17,13 @@ const TechStack: React.FC = () => {
 
   const technologies: Technology[] = [
     // Programming Languages
-    { name: 'Python', icon: '🐍', category: 'Programming', proficiency: 95 },
-    { name: 'C', icon: '⚡', category: 'Programming', proficiency: 90 },
+    { name: 'Python', icon: '🐍', category: 'Programming', proficiency: 80 },
+    { name: 'C', icon: '⚡', category: 'Programming', proficiency: 75 },
     { name: 'Dart', icon: '🎯', category: 'Programming', proficiency: 90 },
     { name: 'SQL', icon: '📊', category: 'Programming', proficiency: 85 },
+    { name: 'JavaScript', icon: '🌐', category: 'Programming', proficiency: 40 },
+    { name: 'TypeScript', icon: '🔵', category: 'Programming', proficiency: 40 },
+    { name: 'Swift', icon: '🍎', category: 'Programming', proficiency: 40 },
 
     // Frameworks & Technologies
     { name: 'Flutter', icon: '📱', category: 'Frameworks', proficiency: 95 },
@@ -28,6 +31,9 @@ const TechStack: React.FC = () => {
     { name: 'Docker', icon: '🐳', category: 'Frameworks', proficiency: 85 },
     { name: 'Firebase', icon: '🔥', category: 'Frameworks', proficiency: 90 },
     { name: 'Computer Vision', icon: '👁️', category: 'Frameworks', proficiency: 85 },
+    { name: 'React', icon: '⚛️', category: 'Frameworks', proficiency: 40 },
+    { name: 'Node.js', icon: '🚀', category: 'Frameworks', proficiency: 40 },
+    
 
     // Hardware & IoT
     { name: 'Arduino', icon: '🤖', category: 'Hardware', proficiency: 90 },

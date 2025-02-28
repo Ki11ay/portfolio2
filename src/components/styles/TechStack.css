@@ -8,6 +8,7 @@
 .tech-header {
   text-align: center;
   margin-bottom: 4rem;
+  color: var(--accentColor);
 }
 
 .section-title {

@@ -24,19 +24,9 @@ const Hobbies: React.FC = () => {
       icon: '🤖'
     },
     {
-      title: 'Photography',
-      description: 'Capturing moments and experimenting with different photography styles',
-      icon: '📸'
-    },
-    {
-      title: '3D Modeling',
-      description: 'Creating 3D models and exploring digital sculpting',
-      icon: '💡'
-    },
-    {
-      title: 'Music Production',
-      description: 'Composing electronic music and sound design',
-      icon: '🎵'
+      title: 'AI & Machine Learning',
+      description: 'Developing AI models and exploring machine learning algorithms',
+      icon: '🧠'
     },
     {
       title: 'Writings',

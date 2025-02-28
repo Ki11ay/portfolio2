@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { useMouseContext } from '../context/MouseContext';
-import WritingsList from './Writings/WritingsList';
 import type { ProcessedWriting, RawWriting } from '../types/writings';
 import { supabase } from '../utils/supabase';
 import './styles/Hobbies.css';
@@ -26,20 +25,10 @@ const Hobbies: React.FC = () => {
       icon: '🤖'
     },
     {
-      title: 'Photography',
-      description: 'Capturing moments and experimenting with different photography styles',
-      icon: '📸'
-    },
-    {
       title: '3D Modeling',
       description: 'Creating 3D models and exploring digital sculpting',
       icon: '💡'
     },
-    {
-      title: 'Music Production',
-      description: 'Composing electronic music and sound design',
-      icon: '🎵'
-    }
   ];
 
   useEffect(() => {
@@ -139,23 +128,6 @@ const Hobbies: React.FC = () => {
               <p className="hobby-description">{hobby.description}</p>
             </div>
           ))}
-        </div>
-
-        <div className="writings-section">
-          <h3 className="writings-title">Latest Writings</h3>
-          {error ? (
-            <div className="writings-error">
-              {error}
-              <p>Please try again later.</p>
-            </div>
-          ) : loading ? (
-            <div className="writings-loading">Loading writings...</div>
-          ) : (
-            <WritingsList 
-              writings={writings}
-              onWritingClick={() => cursorChangeHandler('')}
-            />
-          )}
         </div>
       </div>
 

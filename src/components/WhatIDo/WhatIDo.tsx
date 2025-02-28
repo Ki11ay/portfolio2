@@ -21,8 +21,8 @@ const WhatIDo: React.FC = () => {
     {
       title: 'Software Engineering',
       description: 'Specializing in robotics and embedded systems development.',
-      icon: '🤖',
-      skills: ['TypeScript', 'React', 'Python', 'C/C++', 'ROS'],
+      icon: '💻',
+      skills: ['TypeScript', 'React', 'Python', 'C/C++', 'Dart'],
       color: '#0984e3'
     },
     {

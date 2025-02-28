@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger, ScrollSmoother } from '../../plugins/gsap-register';
+import { gsap, ScrollTrigger } from '../../plugins/gsap-register';
 import './styles/ScrollSmoother.css';
 
 interface ScrollSmootherWrapperProps {

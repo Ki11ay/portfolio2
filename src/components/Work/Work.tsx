@@ -1,147 +1,172 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ProjectCard from './ProjectCard';
+import React, { useState } from 'react';
+import { gsap } from '../../plugins/gsap-register';
+import useScrollAnimation from '../../hooks/useScrollAnimation';
 import './styles/Work.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 interface Project {
+  id: string;
   title: string;
   description: string;
-  technologies: string[];
   image: string;
-  liveUrl?: string;
-  githubUrl?: string;
+  technologies: string[];
   features: string[];
-  improvements: string[];
+  achievements: string[];
+  projectLink: string;
 }
 
+const projects: Project[] = [
+  {
+    id: 'markoni',
+    title: 'Smart Indirect Evaporative Cooling',
+    description: 'An innovative cooling system utilizing indirect evaporative technology for efficient temperature control.',
+    image: '/images/Markoni.jpeg',
+    technologies: ['IoT', 'Sensors', 'Smart Controls', 'Energy Efficiency'],
+    features: [
+      'Real-time temperature monitoring',
+      'Automated control system',
+      'Energy usage optimization',
+      'Remote monitoring capabilities'
+    ],
+    achievements: [
+      'Reduced energy consumption by 40%',
+      'Increased cooling efficiency by 29%',
+    ],
+    projectLink: 'https://markoni.killay.me'
+  },
+  {
+    id: 'mybus',
+    title: 'Bus Tracking System (My Bus)',
+    description: 'A comprehensive bus tracking and management system for improved public transportation.',
+    image: '/images/MyBus.png',
+    technologies: ['GPS Tracking', 'Real-time Updates', 'Mobile App', 'Route Optimization', 'Data Analytics','Object Detection'],
+    features: [
+      'Real-time bus tracking',
+      'Arrival time predictions',
+      'Route planning',
+      'Passenger counting system',
+      'Mobile app integration',
+      'User feedback system',
+      'Data analytics',
+      'Notifications'
+    ],
+    achievements: [
+      'Improved route efficiency by 25%',
+      'Reduced wait times by 30%',
+      'Enhanced user satisfaction'
+    ],
+    projectLink: 'https://github.com/Ki11ay/My_Bus'
+  },
+  {
+    id: 'collector',
+    title: 'Autonomous Water Trash Collector',
+    description: 'An automated system for detecting, collecting and managing water-based waste and pollution.',
+    image: '/images/Collector.png',
+    technologies: [ 'Automation', 'Environmental', 'Control Systems'],
+    features: [
+      'Autonomous operation',
+      'Waste collection system',
+      'Environmental monitoring',
+      'Remote control capabilities'
+    ],
+    achievements: [
+      'Collected over 5kg of waste',
+      'Improved water quality in test areas',
+      'Reduced manual cleanup costs'
+    ],
+    projectLink: 'https://github.com/Ki11ay/aquadron_automation'
+  }
+];
+
 const Work: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const containerRef = useScrollAnimation<HTMLDivElement>();
 
-  const projects: Project[] = [
-    {
-      title: "Smart Indirect Evaporative Cooling",
-      description: "An IoT-enabled cooling control system designed to optimize energy efficiency and reduce manual intervention.",
-      technologies: ["ESP32", "Web Development", "IoT", "Sensors", "Real-time Monitoring"],
-      image: "/images/Markoni.jpeg",
-      features: [
-        "Real-time temperature and humidity monitoring",
-        "Remote control via web interface",
-        "Automated cooling optimization",
-        "Energy consumption tracking"
-      ],
-      improvements: [
-        "Reduced energy consumption by 20%",
-        "Decreased manual intervention by 40%",
-        "Enhanced cooling efficiency through smart controls"
-      ]
-    },
-    {
-      title: "Real-Time Bus Tracking",
-      description: "A mobile application for tracking multiple bus routes in real-time using Flutter and Firebase.",
-      technologies: ["Flutter", "Firebase", "Google Maps API", "Real-time Updates", "Location Services"],
-      image: "/images/MyBus.png",
-      features: [
-        "Live bus location tracking",
-        "Multiple route monitoring",
-        "Real-time ETA calculations",
-        "User-friendly interface"
-      ],
-      improvements: [
-        "Track 5+ bus routes simultaneously",
-        "Improved user navigation experience",
-        "Real-time location updates with minimal delay"
-      ]
-    },
-    {
-      title: "Water Trash Collector ROV",
-      description: "A semi-autonomous ROV designed for underwater waste collection with AI-powered detection.",
-      technologies: ["RaspberryPi", "YOLOv5", "Computer Vision", "ROV Control", "Python"],
-      image: "/images/Collector.png",
-      features: [
-        "AI-powered waste detection",
-        "Semi-autonomous operation",
-        "Real-time video processing",
-        "Underwater navigation"
-      ],
-      improvements: [
-        "Cut processing delays by 25%",
-        "Boosted recognition accuracy by 15%",
-        "Implemented efficient waste collection mechanism"
-      ]
-    }
-  ];
+  const handleCardClick = (projectId: string) => {
+    setExpandedId(prevId => prevId === projectId ? null : projectId);
+  };
 
-  useEffect(() => {
-    if (!containerRef.current || !projectsRef.current) return;
+  const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+    const isExpanded = expandedId === project.id;
+    const cardRef = useScrollAnimation<HTMLDivElement>();
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top center+=100',
-        end: 'bottom center',
-        toggleActions: 'play none none reverse'
-      }
-    });
-
-    // Animate header
-    tl.fromTo(
-      '.work-header',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
-    );
-
-    // Animate project cards
-    const cards = projectsRef.current.querySelectorAll('.project-card');
-    cards.forEach((card, index) => {
-      tl.fromTo(
-        card,
-        { 
-          y: 30,
-          opacity: 0,
-          scale: 0.95
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: 'power3.out'
-        },
-        `-=0.4`
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
-
-  return (
-    <div className="work" ref={containerRef}>
-      <div className="content-container">
-        <div className="work-header">
-          <h2 className="section-title">Featured Projects</h2>
-          <p className="section-subtitle">
-            Innovative solutions in robotics and software development
-          </p>
+    return (
+      <div
+        className={`project-card ${isExpanded ? 'expanded' : ''}`}
+        ref={cardRef}
+      >
+        <div className="project-image">
+          <img src={project.image} alt={project.title} loading="lazy" />
+          <div className="project-overlay">
+            <a
+              href={project.projectLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link-overlay"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Visit Project →
+            </a>
+          </div>
         </div>
 
-        <div className="projects-grid" ref={projectsRef}>
-          {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} />
+        <div className="project-content">
+          <h3 className="project-title">{project.title}</h3>
+          <p className="project-description">{project.description}</p>
+
+          <div className="tech-stack">
+            {project.technologies.map(tech => (
+              <span key={tech} className="tech-tag">{tech}</span>
+            ))}
+          </div>
+
+          <div className="card-actions">
+            <button
+              className="details-btn"
+              onClick={() => handleCardClick(project.id)}
+            >
+              {isExpanded ? 'Show Less' : 'Show Details'}
+            </button>
+          </div>
+
+          <div className="project-details">
+            <div className="features-list">
+              <h4 className="list-title">Key Features</h4>
+              <ul className="list-items">
+                {project.features.map((feature, index) => (
+                  <li key={index} className="list-item">{feature}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="achievements-list">
+              <h4 className="list-title">Achievements</h4>
+              <ul className="list-items">
+                {project.achievements.map((achievement, index) => (
+                  <li key={index} className="list-item">{achievement}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <section id="work" className="work" ref={containerRef}>
+      <div className="content-container">
+        <h2>Featured Projects</h2>
+        <p className="section-description">
+          A showcase of my innovative projects in Automation, Mobile Applications Development, IoT, and Environmental Solutions.
+        </p>
+        
+        <div className="projects-grid">
+          {projects.map(project => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </div>
-
-      <div className="work-background">
-        <div className="gradient-sphere"></div>
-        <div className="dots-pattern"></div>
-      </div>
-    </div>
+    </section>
   );
 };
 

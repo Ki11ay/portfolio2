@@ -218,9 +218,3 @@
 }
 
 /* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .hobby-card,
-  .hobby-card::after {
-    transition: none !important;
-  }
-}
