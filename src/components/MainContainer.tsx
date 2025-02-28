@@ -7,7 +7,7 @@ import WhatIDo from './WhatIDo/WhatIDo';
 import TechStack from './TechStack';
 import Work from './Work/Work';
 import Hobbies from './Hobbies/Hobbies';
-import Contact from './Contact';
+import Contact from './Contact/Contact';  // Updated import path
 import './styles/MainContainer.css';
 import Career from './Career';
 
@@ -19,7 +19,7 @@ interface SectionConfig {
 const sections: SectionConfig[] = [
   { id: 'home', Component: Landing },
   { id: 'what-i-do', Component: WhatIDo },
-  {id: 'career', Component: Career},
+  { id: 'career', Component: Career },
   { id: 'work', Component: Work },
   { id: 'tech-stack', Component: TechStack },
   { id: 'hobbies', Component: Hobbies },
@@ -73,7 +73,7 @@ const Section: React.FC<{ config: SectionConfig }> = ({ config }) => {
       <div
         ref={contentRef}
         className="content-container"
-        style={{ transform: 'translateY(30px)', opacity: 0 }}
+        style={{ opacity: 1 }}  // Ensure content is visible
       >
         <config.Component />
       </div>

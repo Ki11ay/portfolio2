@@ -1,0 +1,239 @@
+/* Contact section */
+.contact {
+  position: relative;
+  padding: var(--sectionSpacing) 0;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Contact header */
+.contact-header {
+  margin-bottom: 4rem;
+}
+
+.contact-header h2 {
+  font-size: 2.5rem;
+  color: var(--headingColor);
+  margin-bottom: 1rem;
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--textColor);
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Contact links */
+.contact-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 1000px;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative;
+  z-index: 3;
+}
+
+.contact-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  background: var(--cardBackground);
+  border-radius: var(--radiusLg);
+  text-decoration: none;
+  color: var(--textColor);
+  min-width: 180px;
+  transition: transform 0.3s var(--transitionTiming),
+              box-shadow 0.3s var(--transitionTiming),
+              background-color 0.3s var(--transitionTiming);
+  box-shadow: var(--shadowSm);
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+  max-width: 300px;
+}
+
+.contact-link:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: var(--shadowLg);
+  background: var(--accentColor);
+  color: white;
+}
+
+.contact-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: currentColor;
+  transition: transform 0.3s var(--transitionTiming);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-link:hover .contact-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.contact-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Background elements */
+.contact-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gradient-sphere {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(var(--accentColorRGB), 0.1) 0%,
+    rgba(var(--accentColorRGB), 0) 70%
+  );
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dots-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
+  background-image: 
+    linear-gradient(rgba(var(--textColorRGB), 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--textColorRGB), 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .contact-links {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .contact-link {
+    min-width: calc(50% - 1.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    min-height: auto;
+    padding: var(--sectionSpacingMobile) 0;
+  }
+
+  .contact-header h2 {
+    font-size: 2rem;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+
+  .contact-link {
+    flex-direction: row;
+    justify-content: center;
+    padding: 1.5rem;
+    min-width: auto;
+    gap: 1rem;
+    max-width: none;
+  }
+
+  .contact-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .contact-link {
+    background: var(--cardBackgroundDark);
+  }
+
+  .contact-link:hover {
+    background: var(--accentColor);
+  }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+  .contact-link {
+    border: 2px solid ButtonText;
+    background: Canvas;
+    color: ButtonText;
+  }
+
+  .contact-link:hover {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .contact-icon {
+    forced-color-adjust: none;
+  }
+
+  .gradient-sphere,
+  .dots-pattern {
+    display: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .contact,
+  .contact-link,
+  .contact-icon {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Ensure visibility */
+.contact,
+.contact-links,
+.contact-link {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
