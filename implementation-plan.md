@@ -1,62 +1,31 @@
-# Implementation Plan
+# Implementation Plan for Fixing Vercel Deployment
 
-## 1. Environment Setup
-1. Create .env file with Supabase credentials:
-```
-VITE_SUPABASE_URL=https://wpiyrtmwubycxjldxlir.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwaXlydG13dWJ5Y3hqbGR4bGlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1NjM2NjEsImV4cCI6MjA1NTEzOTY2MX0.cieyhVEQg_i0z4XEKqYBiEpBT-kmuLoCDTy_R0gX_qE
-```
+## Current Issue
+The deployment is failing due to a non-existent GSAP package dependency:
+`@gsap/shockingly@^3.12.5`
 
-## 2. Section Organization
-1. Update MainContainer.tsx:
-   - Add proper section classes
-   - Integrate WritingsList component
-   - Ensure proper section order matching requirements
+## Analysis
+- The project uses GSAP for animations and scroll effects
+- Only standard GSAP features and ScrollTrigger plugin are being used
+- The @gsap/shockingly package is not a valid package and is causing the deployment to fail
 
-2. Section class updates needed:
-```typescript
-<section id="home" className="section landing-section">
-<section id="what-i-do" className="section whatido-section">
-<section id="career" className="section career-section">
-<section id="work" className="section work-section">
-<section id="writings" className="section writings-section">
-<section id="hobbies" className="section hobbies-section">
-<section id="contact" className="section contact-section">
-```
+## Solution Steps
+1. Remove the invalid dependency:
+   - Remove `"@gsap/shockingly": "^3.12.5"` from package.json
 
-## 3. CSS Updates
-1. Add CSS class for writings section:
-```css
-.writings-section {
-  padding: var(--sectionSpacing) 0;
-}
-```
+2. Verify GSAP imports:
+   - Confirm all GSAP features are imported from the main 'gsap' package
+   - Current imports look correct in gsap-register.ts
 
-2. Review and update section spacing variables:
-```css
-:root {
-  --sectionSpacing: 4rem;
-  --maxWidth: 1200px;
-}
-```
+3. Test locally:
+   - Run npm install
+   - Build the project
+   - Verify animations still work as expected
 
-## 4. Data Integration
-1. Extract data from myCV.pdf for each section
-2. Update component content with CV data
-3. Integrate Writings list view:
-   - Add WritingsList component to MainContainer
-   - Style writing cards for consistent look
-   - Implement smooth transitions
+4. Deploy to Vercel:
+   - Push changes
+   - Monitor deployment logs
 
-## 5. Testing & Validation
-1. Test Supabase connection and data fetching
-2. Verify scroll behavior between sections
-3. Check responsive design
-4. Test section animations and transitions
-5. Verify CV data accuracy
-
-## Next Steps
-1. Switch to Code mode to implement environment setup
-2. Make section organization changes
-3. Update CSS for proper spacing
-4. Integrate data from CV and Supabase
+## Expected Outcome
+- Successful deployment on Vercel
+- All GSAP animations continuing to function as before

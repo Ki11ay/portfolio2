@@ -35,7 +35,7 @@ const projects: Project[] = [
   },
   {
     id: 'mybus',
-    title: 'Bus Tracking System (My Bus)',
+    title: 'Bus Tracking System',
     description: 'A comprehensive bus tracking and management system for improved public transportation.',
     image: '/images/MyBus.png',
     technologies: ['GPS Tracking', 'Real-time Updates', 'Mobile App', 'Route Optimization', 'Data Analytics','Object Detection'],
