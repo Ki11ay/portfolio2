@@ -1,14 +1,17 @@
-/* Basic structure */
-.contact {
+.contact-section {
   padding: 4rem 2rem;
   width: 100%;
   background: var(--backgroundColor);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
 }
 
-.content-container {
+.contact-container {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+  width: 100%;
 }
 
 /* Header */
@@ -16,13 +19,13 @@
   margin-bottom: 3rem;
 }
 
-.contact-header h2 {
+.contact-title {
   font-size: 2.5rem;
   color: var(--headingColor);
   margin-bottom: 1rem;
 }
 
-.section-description {
+.contact-description {
   color: var(--textColor);
   font-size: 1.1rem;
   max-width: 600px;
@@ -30,7 +33,7 @@
 }
 
 /* Links grid */
-.social-links {
+.contact-links {
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -40,7 +43,7 @@
 }
 
 /* Link cards */
-.social-link {
+.contact-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,9 +57,15 @@
   text-decoration: none;
   color: var(--textColor);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.social-icon {
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
   width: 3rem;
   height: 3rem;
   display: flex;
@@ -64,35 +73,35 @@
   justify-content: center;
 }
 
-.social-name {
+.contact-label {
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .contact {
+  .contact-section {
     padding: 3rem 1rem;
   }
 
-  .contact-header h2 {
+  .contact-title {
     font-size: 2rem;
   }
 
-  .social-links {
+  .contact-links {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
 
-  .social-link {
+  .contact-card {
     flex-direction: row;
     justify-content: flex-start;
     max-width: none;
     padding: 1.5rem;
   }
 
-  .social-icon {
+  .contact-icon {
     width: 2.5rem;
     height: 2.5rem;
   }
@@ -100,14 +109,14 @@
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
-  .social-link {
+  .contact-card {
     background: var(--cardBackgroundDark);
   }
 }
 
 /* High contrast */
 @media (forced-colors: active) {
-  .social-link {
+  .contact-card {
     border: 2px solid ButtonText;
   }
 }

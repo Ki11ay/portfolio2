@@ -7,9 +7,9 @@ import WhatIDo from './WhatIDo/WhatIDo';
 import TechStack from './TechStack';
 import Work from './Work/Work';
 import Hobbies from './Hobbies/Hobbies';
-import Contact from './Contact/Contact';  // Updated import path
-import './styles/MainContainer.css';
+import Contact from './Contact/Contact';
 import Career from './Career';
+import './styles/MainContainer.css';
 
 interface SectionConfig {
   id: string;
@@ -27,54 +27,18 @@ const sections: SectionConfig[] = [
 ];
 
 const Section: React.FC<{ config: SectionConfig }> = ({ config }) => {
-  const visibilityRef = useIntersectionObserver({
+  const { elementRef: visibilityRef, isVisible } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '-50px'
   });
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const animationRef = useScrollAnimation({
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    ease: 'power3.out',
-    start: 'top center+=100',
-    end: 'bottom center',
-    onEnter: () => {
-      if (contentRef.current) {
-        gsap.to(contentRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          overwrite: true
-        });
-      }
-    }
-  });
-
-  const setRefs = (element: HTMLElement | null) => {
-    if (element) {
-      if ('current' in visibilityRef) {
-        (visibilityRef as { current: HTMLElement | null }).current = element;
-      }
-      if ('current' in animationRef) {
-        (animationRef as { current: HTMLElement | null }).current = element;
-      }
-    }
-  };
-
   return (
     <section
       id={config.id}
-      ref={setRefs}
-      className={`section ${config.id}-section ${visibilityRef.isVisible ? 'visible' : ''}`}
+      ref={visibilityRef}
+      className={`section ${config.id}-section ${isVisible ? 'visible' : ''}`}
     >
-      <div
-        ref={contentRef}
-        className="content-container"
-        style={{ opacity: 1 }}  // Ensure content is visible
-      >
+      <div className="content-container">
         <config.Component />
       </div>
     </section>
@@ -107,6 +71,7 @@ const MainContainer: React.FC = () => {
     return () => {
       ScrollTrigger.removeEventListener('refresh', updateScrollProgress);
       window.removeEventListener('scroll', updateScrollProgress);
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [updateScrollProgress]);
 

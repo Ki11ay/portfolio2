@@ -1,0 +1,73 @@
+/* Import new styles */
+@import '../Contact/styles/Contact.css';
+
+/* Override any conflicting styles */
+.contact {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.social-links {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.social-link {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  background: var(--cardBackground);
+  border-radius: var(--radiusLg);
+  text-decoration: none;
+  color: var(--textColor);
+  box-shadow: var(--shadowSm);
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadowLg);
+  background: var(--accentColor);
+  color: white;
+}
+
+/* Ensure responsive styles are maintained */
+@media (max-width: 768px) {
+  .social-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .social-link {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    min-width: auto;
+    gap: 1.5rem;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .social-link {
+    background: var(--cardBackgroundDark);
+  }
+
+  .social-link:hover {
+    background: var(--accentColor);
+  }
+}
