@@ -150,9 +150,6 @@
     justify-content: flex-end;
   }
 
-  .menu-button {
-    display: block;
-  }
 
   .nav-links {
     position: fixed;
@@ -160,7 +157,6 @@
     left: 0;
     right: 0;
     flex-direction: column;
-    background: var(--backgroundColor);
     padding: 1rem;
     gap: 1rem;
     transform: translateY(-100%);

@@ -247,8 +247,11 @@
 
   .timeline {
     padding-left: 1rem;
+    margin-left: 10px;
   }
-
+.timeline-marker{
+  margin-left: 17px ;
+}
   .experience-header {
     flex-direction: column;
     gap: 0.5rem;

@@ -121,7 +121,6 @@
 
 .button-icon {
   width: 1.2em;
-  height: 1.2em;
   transition: transform 0.3s var(--transitionTiming);
 }
 
@@ -288,6 +287,11 @@
     padding: 1rem;
   }
 
+.scroll-indicator{
+  top: 0;
+  align-items: center;
+ left:45%;
+}
   .name {
     font-size: 3rem;
   }
