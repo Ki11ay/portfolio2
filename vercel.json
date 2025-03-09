@@ -3,10 +3,8 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+  "routes": [
+    { "src": "/myCV.pdf", "dest": "/myCV.pdf" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
