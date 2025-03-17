@@ -83,8 +83,8 @@ const Landing: React.FC = () => {
 
         <div className="social-links">
           {[
-            { name: 'GitHub', url: 'https://github.com/mhmdbhsk' },
-            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mohamed-abubaker-4b7b1b1a2/' },
+            { name: 'GitHub', url: 'https://github.com/Ki11ay' },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mohamed-abubaker-baa87916a/' },
             { name: 'Email', url: 'mailto:mohammedaliedriis@gmail.com' }
           ].map(social => (
             <a
